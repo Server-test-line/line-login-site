@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>會員登入</title>
+</head>
+<body>
+  <h2>會員登入</h2>
+  <input id="email" placeholder="Email"><br>
+  <input id="password" type="password" placeholder="Password"><br>
+  <input id="name" placeholder="Name（可選）"><br>
+  <input id="phone" placeholder="Phone（可選）"><br>
+  <button onclick="login()">登入 / 註冊</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWj-JLYnSEtoBwRvm7Lm5_3DUOy70ZkSQ",
+      authDomain: "testing-login-7d54f.firebaseapp.com",
+      projectId: "testing-login-7d54f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    async function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      if (!email.includes("@") || password.length < 6) {
+        alert("⚠️ 請輸入有效 Email 且密碼至少 6 位數！");
+        return;
+      }
+
+      try {
+        let userCredential;
+
+        try {
+          console.log("🔐 嘗試登入中...");
+          userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          console.log("✅ 登入成功：", user.uid, user.email);
+          alert("✅ 登入成功！");
+        } catch (err) {
+          if (err.code === "auth/user-not-found" || err.code === "auth/invalid-login-credentials") {
+            console.log("🆕 使用者不存在，準備註冊...");
+            try {
+              userCredential = await createUserWithEmailAndPassword(auth, email, password);
+              const user = userCredential.user;
+              console.log("✅ 註冊成功：", user.uid, user.email);
+
+              await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+                name: name || "未填寫",
+                phone: phone || "未填寫",
+                createdAt: new Date(),
+                lastLogin: new Date()
+              });
+
+              alert("🆕 新使用者已註冊並寫入 Firestore！");
+              return;
+
+            } catch (signupError) {
+              console.error("❌ 註冊失敗：", signupError);
+              alert(`❌ 註冊失敗：${signupError.code}\n訊息：${signupError.message}`);
+              return;
+            }
+
+          } else if (err.code === "auth/wrong-password" || err.code === "auth/invalid-login-credentials") {
+            alert("❌ 登入失敗：帳號或密碼錯誤");
+            return;
+          } else {
+            throw err;
+          }
+        }
+
+        const user = userCredential.user;
+        const userRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userRef);
+
+        if (docSnap.exists()) {
+          await updateDoc(userRef, {
+            name: name || docSnap.data().name,
+            phone: phone || docSnap.data().phone,
+            lastLogin: new Date()
+          });
+        } else {
+          await setDoc(userRef, {
+            email: user.email,
+            name: name || "未填寫",
+            phone: phone || "未填寫",
+            createdAt: new Date(),
+            lastLogin: new Date()
+          });
+        }
+
+      } catch (error) {
+        console.error("🚫 登入/註冊流程錯誤：", error);
+        alert(`🚫 錯誤：${error.code}\n訊息：${error.message}`);
+      }
+    }
+
+    window.login = login;
+  </script>
+</body>
+</html>
