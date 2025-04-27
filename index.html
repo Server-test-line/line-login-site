@@ -96,8 +96,6 @@
               // 如果發生權限不足的錯誤，強制要求用戶重新登入並授權
               if (error.message.includes("user doesn't grant required permissions")) {
                 console.log("⚠️ 權限不足，正在重新授權...");
-                liff.logout();  // 先登出
-                liff.login({ scope: 'openid profile chat_message.write' });  // 再次請求授權
               } else {
                 console.error("發送訊息時出錯：", error);
               }
