@@ -64,7 +64,7 @@
 
           if (userId) {
             // 登入成功後通知後端
-            await fetch('https://line-login-site.vercel.app/callback_login', {
+            await fetch('https://line-login-site.vercel.app/api/callback_login', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ userId: userId, loginSuccess: true })
