@@ -31,8 +31,12 @@
 
     // 2. 在最前面做 LIFF 初始化
     await liff.init({ liffId: '2007336232-jzagxBGy' });
+    console.log('LIFF 初始化成功');
     if (!liff.isLoggedIn()) {
+      console.log('未登入，正在要求登入...');
       liff.login({ scope: 'openid profile chat_message.write' });
+    } else {
+      console.log('已登入');
     }
 
     const firebaseConfig = {
@@ -84,8 +88,12 @@
             }
 
             // 3. 用 LIFF 讓使用者自己發一條訊息給 Bot
-            await liff.sendMessages([{ type: 'text', text: 'LOGIN_SUCCESS' }]);
-            liff.closeWindow();
+            try {
+              await liff.sendMessages([{ type: 'text', text: 'LOGIN_SUCCESS' }]);
+              console.log('訊息發送成功');
+            } catch (error) {
+              console.error('訊息發送失敗：', error);
+            }
           }
         } catch (err) {
           // 如果用戶不存在就註冊
