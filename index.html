@@ -69,6 +69,11 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ userId: userId, loginSuccess: true })
             });
+            if (response.ok) {
+              console.log('✅ 成功通知後端！');
+            } else {
+              console.error('🚫 通知後端失敗！', response.status);
+            }
           }
         } catch (err) {
           if (err.code === "auth/user-not-found" || err.code === "auth/invalid-login-credentials") {
