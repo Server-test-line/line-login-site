@@ -93,6 +93,7 @@
               console.log('訊息發送成功');
             } catch (error) {
               console.error('訊息發送失敗：', error);
+              alert('發送訊息時出錯：' + error.message);
             }
           }
         } catch (err) {
