@@ -50,14 +50,18 @@
 
       try {
         let userCredential;
+        console.log("🔐 嘗試登入中...");
+
+        // 顯示 loading
+        document.body.innerHTML += "<p>登入中...</p>";
 
         try {
-          console.log("🔐 嘗試登入中...");
+          // 嘗試登入
           userCredential = await signInWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
           console.log("✅ 登入成功：", user.uid, user.email);
           alert("✅ 登入成功！");
-          
+
           // 取得網址中的 userId 參數
           const urlParams = new URLSearchParams(window.location.search);
           const userId = urlParams.get('userId');
@@ -99,7 +103,6 @@
               alert(`❌ 註冊失敗：${signupError.code}\n訊息：${signupError.message}`);
               return;
             }
-
           } else if (err.code === "auth/wrong-password" || err.code === "auth/invalid-login-credentials") {
             alert("❌ 登入失敗：帳號或密碼錯誤");
             return;
@@ -127,6 +130,9 @@
             lastLogin: new Date()
           });
         }
+
+        // 隱藏 loading
+        document.body.innerHTML += "<p>登入成功！</p>";
 
       } catch (error) {
         console.error("🚫 登入/註冊流程錯誤：", error);
