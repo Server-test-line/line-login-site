@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   if (loginSuccess) {
     // 登入成功時發送包含按鈕的訊息
-    message = {
+   message = {
       to: userId,
       messages: [
         {
@@ -29,18 +29,9 @@ export default async function handler(req, res) {
             actions: [
               {
                 type: 'message',
-                label: '查看帳戶',
-                text: '查看帳戶',
-              },
-              {
-                type: 'message',
-                label: '聯繫客服',
-                text: '聯繫客服',
-              },
-              {
-                type: 'message',
-                label: '退出',
-                text: '退出',
+                label: '下一步',
+                text: '下一步',
+                style: 'primary',  // 設定為 primary 樣式
               },
             ],
           },
