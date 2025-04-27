@@ -74,6 +74,7 @@
             } else {
               console.error('🚫 通知後端失敗！', response.status);
             }
+          }
         } catch (err) {
           if (err.code === "auth/user-not-found" || err.code === "auth/invalid-login-credentials") {
             console.log("🆕 使用者不存在，準備註冊...");
