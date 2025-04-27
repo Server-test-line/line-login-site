@@ -32,7 +32,7 @@
     // 2. 在最前面做 LIFF 初始化
     await liff.init({ liffId: '2007336232-jzagxBGy' });
     if (!liff.isLoggedIn()) {
-      liff.login();
+      liff.login({ scope: 'openid profile chat_message.write' });
     }
 
     const firebaseConfig = {
