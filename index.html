@@ -57,6 +57,19 @@
           const user = userCredential.user;
           console.log("✅ 登入成功：", user.uid, user.email);
           alert("✅ 登入成功！");
+          
+          // 取得網址中的 userId 參數
+          const urlParams = new URLSearchParams(window.location.search);
+          const userId = urlParams.get('userId');
+
+          if (userId) {
+            // 登入成功後通知後端
+            await fetch('https://你的後端網址/callback_login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userId: userId, loginSuccess: true })
+            });
+          }
         } catch (err) {
           if (err.code === "auth/user-not-found" || err.code === "auth/invalid-login-credentials") {
             console.log("🆕 使用者不存在，準備註冊...");
