@@ -24,6 +24,7 @@ export default async function handler(req, res) {
           altText: '登入成功，選擇下一步操作',
           contents: {
             type: 'bubble',
+            "size": "kilo",
             body: {
               type: 'box',
               layout: 'vertical',
