@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: '缺少 userId' });
   }
 
-  console.log('🔔 收到登入通知：', { userId, loginSuccess });
+  console.log('收到登入通知：', { userId, loginSuccess });
 
   // 準備發送訊息到 LINE 官方
   let message = {};
@@ -116,9 +116,9 @@ export default async function handler(req, res) {
     });
 
     if (response.ok) {
-      console.log('✅ 成功發送訊息給使用者！');
+      console.log('成功發送訊息給使用者！');
     } else {
-      console.error('🚫 發送訊息失敗：', response.statusText);
+      console.error('發送訊息失敗：', response.statusText);
     }
 
     // 2. 通知 Line Bot 更新 user_states
@@ -131,13 +131,13 @@ export default async function handler(req, res) {
     });
 
     if (callbackLoginResponse.ok) {
-      console.log('✅ 成功通知 Line Bot 更新登入狀態');
+      console.log('成功通知 Line Bot 更新登入狀態');
     } else {
-      console.error('🚫 通知 Line Bot 失敗：', callbackLoginResponse.statusText);
+      console.error('通知 Line Bot 失敗：', callbackLoginResponse.statusText);
     }
 
   } catch (error) {
-    console.error('🚫 發送訊息或通知 Line Bot 時發生錯誤：', error);
+    console.error('發送訊息或通知 Line Bot 時發生錯誤：', error);
     return res.status(500).json({ message: '內部伺服器錯誤' });
   }
 
