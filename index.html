@@ -48,7 +48,7 @@
       const phone = document.getElementById("phone").value.trim();
 
       if (!email.includes("@") || password.length < 6) {
-        alert("⚠️ 請輸入有效 Email 且密碼至少 6 位數！");
+        alert("請輸入有效 Email 且密碼至少 6 位數！");
         return;
       }
 
@@ -56,11 +56,11 @@
         let userCredential;
 
         try {
-          console.log("🔐 嘗試登入中...");
+          console.log("嘗試登入中...");
           userCredential = await signInWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
-          console.log("✅ 登入成功：", user.uid, user.email);
-          alert("✅ 登入成功！");
+          console.log("登入成功：", user.uid, user.email);
+          alert("登入成功！");
 
           const urlParams = new URLSearchParams(window.location.search);
           const userId = urlParams.get('userId');
@@ -73,9 +73,9 @@
             });
 
             if (response.ok) {
-              console.log('✅ 成功通知後端！');
+              console.log('成功通知後端！');
             } else {
-              console.error('🚫 通知後端失敗！', response.status);
+              console.error('通知後端失敗！', response.status);
             }
 
             try {
@@ -83,7 +83,7 @@
               liff.closeWindow();
             } catch (error) {
               if (error.message.includes("user doesn't grant required permissions")) {
-                console.log("⚠️ 權限不足，正在重新授權...");
+                console.log("權限不足，正在重新授權...");
                 liff.logout(); 
                 liff.login({ scope: 'openid profile chat_message.write' });
               } else {
@@ -102,11 +102,11 @@
               createdAt: new Date(),
               lastLogin: new Date()
             });
-            alert("🆕 新使用者已註冊並寫入 Firestore！");
+            alert("新使用者已註冊並寫入 Firestore！");
             return;
           } else {
             console.error("登入/註冊錯誤：", err);
-            alert("❌ 登入/註冊失敗：" + err.message);
+            alert("登入/註冊失敗：" + err.message);
           }
         }
       } catch (error) {
