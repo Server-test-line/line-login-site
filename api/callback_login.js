@@ -20,22 +20,67 @@ export default async function handler(req, res) {
       to: userId,
       messages: [
         {
-          type: 'template',
-          altText: '登入成功，選擇下一步操作',
-          template: {
-            type: 'buttons',
-            title: '登入成功！',
-            text: '選擇您接下來想做的操作：',
-            actions: [
+          "type": "bubble",
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
               {
-                type: 'message',
-                label: '下一步',
-                text: '下一步',
-                style: 'primary',  // 設定為 primary 樣式
+                "type": "text",
+                "text": "登入成功！",
+                "weight": "bold",
+                "size": "xl"
               },
-            ],
+              {
+                "type": "box",
+                "layout": "vertical",
+                "margin": "lg",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "請點選下一步繼續",
+                        "color": "#aaaaaa",
+                        "size": "sm",
+                        "flex": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           },
-        },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "button",
+                "style": "primary",
+                "height": "sm",
+                "action": {
+                  "type": "message",
+                  "label": "下一步",
+                  "text": "選擇送修方式"
+                },
+                "color": "#46A3FF"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [],
+                "margin": "sm"
+              }
+            ],
+            "flex": 0
+          }
+        }
       ],
     };
   } else {
