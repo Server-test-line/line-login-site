@@ -7,26 +7,58 @@
 <body>
   <h2>會員登入</h2>
   <input id="name" placeholder="Account_Name (可選)"><br>
+  <input id="password" type="password" placeholder="Password"><br> <!-- 密碼欄位 -->
   <button onclick="login()">登入</button>
 
   <script>
     async function login() {
       const name = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();  // 讀取密碼欄位
 
-      const response = await fetch('/api/proxy-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          UserID: 'vaster',
-          Password: 'vaster@2673',
-          Account_Name: name || '',
-          HashPassword: ''
-        })
-      });
+      // 首先，呼叫 HASHBYTES API 來取得密碼的哈希值
+      const hashPassword = await getHashedPassword(password);
+      
+      if (hashPassword) {
+        // 當拿到哈希值後，傳送登入請求
+        const response = await fetch('/api/proxy-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            UserID: 'vaster',
+            Password: password,  // 原始密碼
+            Account_Name: name || '',  // 若無輸入名稱，則傳送空字串
+            HashPassword: hashPassword  // 傳送從 HASHBYTES API 獲得的哈希密碼
+          })
+        });
 
-      const result = await response.json();
-      console.log(result);
-      alert(JSON.stringify(result));
+        const result = await response.json();
+        console.log(result);
+        alert(JSON.stringify(result));  // 顯示回傳結果
+      } else {
+        alert('無法取得密碼哈希，請稍後再試！');
+      }
+    }
+
+    // 呼叫 HASHBYTES API 來取得密碼的哈希
+    async function getHashedPassword(password) {
+      try {
+        const response = await fetch('https://webapi.vastar.com.tw/api/Member/HASHBYTES', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ Password: password })
+        });
+
+        const data = await response.json();
+        if (data && data.HashPassword) {
+          return data.HashPassword;  // 取得哈希密碼
+        } else {
+          console.error('哈希處理失敗', data);
+          return null;
+        }
+      } catch (error) {
+        console.error('無法取得哈希密碼', error);
+        return null;
+      }
     }
   </script>
 </body>
