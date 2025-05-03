@@ -1,7 +1,7 @@
 // api/proxy-login.js
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
+    // 若方法不是 POST，回傳 405
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
