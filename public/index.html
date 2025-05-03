@@ -8,37 +8,12 @@
   <h2>會員登入</h2>
   <input id="name" placeholder="Account_Name (可選)"><br>
   <input id="password" type="password" placeholder="Password"><br> <!-- 密碼欄位 -->
-  <button onclick="login()">登入</button>
+  <button id="loginButton" onclick="login()">登入</button>
+
+  <!-- 加載提示 -->
+  <div id="loading" style="display: none;">正在處理請求...</div>
 
   <script>
-    async function login() {
-      const name = document.getElementById("name").value.trim();
-      const password = document.getElementById("password").value.trim();  // 讀取密碼欄位
-
-      // 首先，呼叫 HASHBYTES API 來取得密碼的哈希值
-      const hashPassword = await getHashedPassword(password);
-      
-      if (hashPassword) {
-        // 當拿到哈希值後，傳送登入請求
-        const response = await fetch('/api/proxy-login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            UserID: 'vaster',
-            Password: password,  // 原始密碼
-            Account_Name: name || '',  // 若無輸入名稱，則傳送空字串
-            HashPassword: hashPassword  // 傳送從 HASHBYTES API 獲得的哈希密碼
-          })
-        });
-
-        const result = await response.json();
-        console.log(result);
-        alert(JSON.stringify(result));  // 顯示回傳結果
-      } else {
-        alert('無法取得密碼哈希，請稍後再試！');
-      }
-    }
-
     // 呼叫 HASHBYTES API 來取得密碼的哈希
     async function getHashedPassword(password) {
       try {
@@ -58,6 +33,48 @@
       } catch (error) {
         console.error('無法取得哈希密碼', error);
         return null;
+      }
+    }
+
+    async function login() {
+      const name = document.getElementById("name").value.trim();
+      const password = document.getElementById("password").value.trim();  // 讀取密碼欄位
+
+      // 輸入驗證：檢查帳號與密碼是否為空
+      if (!name || !password) {
+        alert('帳號或密碼不能為空');
+        return;
+      }
+
+      // 固定帳號與密碼
+      const userID = "vastar";  // 寫死的 UserID
+      const fixedPassword = "vastar@2673";  // 寫死的 Password
+
+      // 首先，呼叫 HASHBYTES API 來取得密碼的哈希值
+      const hashPassword = await getHashedPassword(fixedPassword);  // 使用固定密碼
+
+      if (hashPassword) {
+        // 當拿到哈希值後，傳送登入請求
+        const response = await fetch('/api/proxy-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            UserID: userID,  // 固定的 UserID
+            Password: fixedPassword,  // 使用固定密碼
+            Account_Name: name || '',  // 若無輸入名稱，則傳送空字串
+            HashPassword: hashPassword  // 傳送從 HASHBYTES API 獲得的哈希密碼
+          })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert('登入成功！');
+          // 可進行後續操作，例如重定向到首頁
+        } else {
+          alert('登入失敗: ' + result.message);
+        }
+      } else {
+        alert('無法取得密碼哈希，請稍後再試！');
       }
     }
   </script>
