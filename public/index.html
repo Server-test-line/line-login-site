@@ -17,7 +17,7 @@
     // 呼叫 HASHBYTES API 來取得密碼的哈希
     async function getHashedPassword(password) {
       try {
-        const response = await fetch('https://webapi.vastar.com.tw/api/Member/HASHBYTES', {
+        const response = await fetch('api/proxy-hash', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ Password: password })
