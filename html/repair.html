@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>飛騰家電 - 報修</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <img src="logo1.png" alt="飛騰家電logo" class="logo" />
+            <span class="username">歡迎，會員名字</span>
+        </div>
+        <div class="nav-right">
+            <a href="home.html" class="nav-link">首頁</a>
+            <a href="query.html" class="nav-link">查詢</a>
+          </div>
+    </div>
+
+    <div class="page-title">產品報修</div>
+
+    <div class="repair-form">
+        <form onsubmit="return confirmSubmit()">
+          <div class="form-group">
+            <label for="product-id">訂單查詢</label>
+            <input type="text" id="product-id" name="product-id" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="method">此頁會從後端抓取會員資料，包含：</label>
+            <select id="method" name="method">
+              <option value="store">宅急便上門收件</option>
+              <option value="home">自行送至公司</option>
+              <option value="company">自行送至百貨專櫃</option>
+            </select>
+          </div>
+      
+          <button type="submit" class="submit-button">確認報修</button>
+        </form>
+        <a href="home.html" class="back-button">← 回首頁</a>
+    </div>
+
+    <script>
+        function confirmSubmit() {
+            alert("報修資料已送出！（模擬功能）");
+            return false; // 阻止實際送出
+        }
+    </script>
+</body>
+</html>

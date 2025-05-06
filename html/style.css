@@ -1,0 +1,226 @@
+body {
+    font-family: "微軟正黑體", sans-serif;
+    background-color: #4a0d0d; /* 深紅背景 */
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  /* 導覽欄與 logo */
+  .navbar {
+    background-color: rgb(2, 57, 2);
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 左右分開 */
+  }
+  
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 元素間距 */
+  }
+
+  .navbar .logo {
+    width: 100px;
+    margin-right: 20px;
+  }
+  
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }  
+
+  .navbar .username {
+    font-size: 18px;
+  }
+  
+  /* 頁面標題 */
+  .page-title {
+    font-size: 60px;
+    margin-top: 40px;
+    color: #f8d886;
+  }
+  
+  /* 按鈕卡片排版 */
+  .menu-card-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+  
+  /* 查詢／報修 卡片按鈕樣式 */
+  .big-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 120px;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    background-color: #173f1c; /* 深綠底 */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .big-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+  
+  .big-card.query {
+    border: 3px solid #c59771;
+  }
+  
+  .big-card.repair {
+    border: 3px solid #c59771; 
+  }
+  
+  /*login setting*/
+  .logo {
+    width: 450px; /* 可調整為 200、220 看你想要的大小 */
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+  
+  .form-group {
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #fff;
+  }
+  
+  .form-group input {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #c59771;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #a77a56;
+  }
+  
+
+  /*repair setting*/
+  .repair-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .repair-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 380px; /* 控制整體寬度，縮小 */
+    gap: 24px; /* 每個欄位間距 */
+  }
+  
+  .form-group {
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    background-color: #c59771;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #a77a56;
+  }
+
+  /*query setting*/
+  .info-box {
+    background-color: #ac8a6e;
+    border: 2px solid #a77a56;
+    border-radius: 10px;
+    padding: 25px 40px;
+    margin: 20px auto;
+    width: 360px;
+    text-align: left;
+    font-size: 20px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 每項之間的垂直距離 */
+  }
+  
+  
+  
+  
+  
