@@ -58,13 +58,25 @@ body {
   
   /* 按鈕卡片排版 */
   .menu-card-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 欄 */
+    gap: 40px 60px; /* 行距和欄距 */
     justify-content: center;
-    gap: 40px;
     margin-top: 60px;
-    flex-wrap: wrap;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
+  .card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* 讓內容上下排 */
+    margin-top: 20px;       /* 距離標題不要太遠 */
+    padding-bottom: 60px;   /* 保留底部空間 */
+  }  
+
   /* 查詢／報修 卡片按鈕樣式 */
   .big-card {
     display: flex;
@@ -219,8 +231,4 @@ body {
     flex-direction: column;
     gap: 15px; /* 每項之間的垂直距離 */
   }
-  
-  
-  
-  
   
