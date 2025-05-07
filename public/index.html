@@ -10,7 +10,7 @@
   <div class="container">
     <img src="logo1.png" alt="飛騰家電logo" class="logo">
     <h2>會員登入</h2>
-    <form onsubmit="return redirectToHome()" class="login-form">
+    <class="login-form">
         <div class="form-group">
             <label for="phone">電話號碼：</label>
             <input type="text" id="phone" name="phone" required placeholder="電話號碼">
@@ -81,12 +81,13 @@
 
         const result = await response.json();
         if (response.ok) {
-          alert('登入成功！');
+            alert('登入成功！');
+            redirectToHome();
         } else {
-          alert('登入失敗: ' + result.message);
+            alert('登入失敗: ' + result.message);
         }
       } else {
-        alert('無法取得密碼HASH，請稍後再試！');
+            alert('無法取得密碼HASH，請稍後再試！');
       }
     }
   </script>
