@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <title>會員登入</title>
+    <meta charset="UTF-8">
+    <title>飛騰家電 - 會員登入</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h2>會員登入</h2>
-  <input id="name" placeholder="Account_Name (可選)"><br>
-  <input id="password" type="password" placeholder="Password"><br>
-  <button id="loginButton" onclick="login()">登入</button>
-
+  <div class="container">
+    <img src="logo1.png" alt="飛騰家電logo" class="logo">
+    <h2>會員登入</h2>
+    <form onsubmit="return redirectToHome()" class="login-form">
+        <div class="form-group">
+            <label for="phone">電話號碼：</label>
+            <input type="text" id="phone" name="phone" required placeholder="電話號碼">
+        </div>
+        <div class="form-group">
+            <label for="password">密碼：</label>
+            <input type="password" id="password" name="password" required placeholder="請輸入...">
+        </div>
+        <button type="submit" class="submit-button"  id="loginButton" onclick="login()">確認</button>
+    </form>        
+  </div>
   <!-- 加載提示 -->
   <div id="loading" style="display: none;">正在處理請求...</div>
 
@@ -42,7 +54,7 @@
       const password = document.getElementById("password").value.trim();  // 讀取密碼欄位
 
       // 輸入驗證：檢查帳號與密碼是否為空
-      if (!name || !password) {
+      if (!phone || !password) {
         alert('帳號或密碼不能為空');
         return;
       }
@@ -62,7 +74,7 @@
           body: JSON.stringify({
             UserID: userID,
             Password: fixedPassword,
-            Account_Name: name || '',  //電話號碼
+            Account_Name: phone || '',  //電話號碼
             HASHBYTES: hashPassword  // HashPassword
           })
         });
@@ -76,6 +88,12 @@
       } else {
         alert('無法取得密碼HASH，請稍後再試！');
       }
+    }
+  </script>
+  <script>
+    function redirectToHome() {
+        window.location.href = "home.html";
+        return false; // 阻止表單重新整理
     }
   </script>
 </body>
