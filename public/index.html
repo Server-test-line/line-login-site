@@ -25,29 +25,6 @@
   <div id="loading" style="display: none;">正在處理請求...</div>
 
   <script>
-    // 呼叫 HASHBYTES API 來取得密碼的HASH
-    async function getHashedPassword(password) {
-      try {
-        const response = await fetch('api/proxy-hash', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ Password: password })
-        });
-
-        const data = await response.json();
-        if (data && data.HASHBYTES) {
-          return data.HASHBYTES;
-        }
-         else {
-          console.error('HASH處理失敗', data);
-          return null;
-        }
-      } catch (error) {
-        console.error('無法取得HASH密碼', error);
-        return null;
-      }
-    }
-
     async function login() {
       event.preventDefault(); // 阻止表單送出導致重新整理
       const phone = document.getElementById("phone").value.trim();
@@ -59,41 +36,34 @@
         return;
       }
 
-      // 固定帳號與密碼
-      const userID = "vastar";
-      const fixedPassword = "vastar@2673";
-      
-      // 首先，呼叫 HASHBYTES API 來取得密碼的HASH值
-      const hashPassword = await getHashedPassword(fixedPassword);  // 使用固定密碼
+      const loginPayload = {
+        Account_Name: phone,
+        Password: password
+      };
 
-      if (hashPassword) {
-        // 當拿到HASH值後，傳送登入請求
+      try {
         const response = await fetch('/api/proxy-login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            UserID: userID,
-            Password: fixedPassword,
-            Account_Name: phone || '',  //電話號碼
-            HASHBYTES: hashPassword  // HashPassword
-          })
+          body: JSON.stringify(loginPayload)
         });
 
         const result = await response.json();
+
         if (response.ok) {
-            alert('登入成功！');
-            localStorage.setItem('userName', phone);
-            redirectToHome();
+          alert('登入成功！');
+          localStorage.setItem('userName', phone);
+          redirectToHome();
         } else {
-            alert('登入失敗: ' + result.message);
+          alert('登入失敗：' + result.message);
         }
-      } else {
-            alert('無法取得密碼HASH，請稍後再試！');
+      } catch (error) {
+        console.error("登入錯誤：", error);
+        alert("登入過程中發生錯誤，請稍後再試");
       }
+
       return false;
     }
-  </script>
-  <script>
     function redirectToHome() {
         window.location.href = "home.html";
         return false; // 阻止表單重新整理
