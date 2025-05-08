@@ -21,47 +21,6 @@
       <a href="history.html" class="big-card repair">購買歷史</a>
       <a href="info.html" class="big-card repair">會員資料</a>
   </div>
-  <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const accountName = localStorage.getItem("userName");
-        const displayName = localStorage.getItem("displayName"); // 上次查到的會員名字
-      
-        const usernameEl = document.querySelector('.username');
-      
-        if (!accountName) {
-          usernameEl.textContent = "歡迎，訪客";
-          usernameEl.style.visibility = "visible";
-          return;
-        }
-      
-        // 如果有上次的名字，先顯示，加速初始載入
-        if (displayName) {
-          usernameEl.textContent = `歡迎，${displayName}`;
-          usernameEl.style.visibility = "visible";
-        }
-      
-        // 同步再查一次（可選，看是否允許即時同步）
-        fetch('/api/proxy-query', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ Account_Name: accountName })
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.Result === 0 && data.Name) {
-              localStorage.setItem("displayName", data.Name); // 存起來
-              usernameEl.textContent = `歡迎，${data.Name}`;
-            } else {
-              usernameEl.textContent = "歡迎，會員";
-            }
-            usernameEl.style.visibility = "visible";
-          })
-          .catch(err => {
-            console.error("查詢會員錯誤：", err);
-            usernameEl.textContent = "歡迎，會員";
-            usernameEl.style.visibility = "visible";
-          });
-      });
-  </script>
+<script src="js/welcome-username.js"></script>
 </body>
 </html>
