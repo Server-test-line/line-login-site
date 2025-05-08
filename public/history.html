@@ -67,6 +67,7 @@
                     infoBox.innerHTML = '';
                     
                     result.forEach(order => {
+                        const fullAddress = `${order.Receiver_City}${order.Receiver_District}${order.Receiver_Address}`;
                         const orderItem = `
                             <div class="orderItem">
                                 <p>訂單編號：${order.Order_No || 'N/A'}</p>
