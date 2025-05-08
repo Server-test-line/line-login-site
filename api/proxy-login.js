@@ -6,21 +6,43 @@ export default async function handler(req, res) {
   }
 
   try {
-    const payload = req.body;
+    const { Account_Name, Password } = req.body;
+
+    // 先呼叫 HASHBYTES API 加密密碼
+  const hashResponse = await fetch('https://webapi.vastar.com.tw/api/Member/HASHBYTES', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      UserID: 'vastar',
+      Password: 'vastar@2673',
+      Input: Password
+    })
+  });
+
+  const hashData = await hashResponse.json();
+  if (!hashData.HASHBYTES) {
+    return res.status(500).json({ message: 'HASH 加密失敗', detail: hashData });
+  }
+
+      // 使用 HASH 傳送登入請求
+    const loginPayload = {
+      UserID: 'vastar',
+      Password: 'vastar@2673',
+      Account_Name,
+      HASHBYTES: hashData.HASHBYTES
+    };
 
     // 發送 POST 請求到原始 API
-    const apiResponse = await fetch('https://webapi.vastar.com.tw/api/Member/Login', {
+    const loginResponse = await fetch('https://webapi.vastar.com.tw/api/Member/Login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload), // 轉發資料
+      body: JSON.stringify(loginPayload)
     });
 
-    // 從原始 API 接收的回應資料
-    const data = await apiResponse.json();
-    // 返回原始 API 的回應結果
-    return res.status(apiResponse.status).json(data);
+    const loginData = await loginResponse.json();
+    return res.status(loginResponse.status).json(loginData);
+
   } catch (error) {
-    // 如果有錯誤，返回錯誤訊息
-    return res.status(500).json({ message: 'Proxy Error', error: error.message });
+    return res.status(500).json({ message: 'Login Proxy Error', error: error.message });
   }
 }
