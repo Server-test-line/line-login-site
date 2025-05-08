@@ -44,15 +44,15 @@
 
   // 如果沒有 Account_Name 則顯示「歡迎，訪客」
   if (!accountName) {
-    nameEl.textContent = "會員姓名：訪客";
-    phoneEl.textContent = "電話號碼：未提供";
+    nameEl.textContent = "訪客";
+    phoneEl.textContent = "未提供";
     return;
   }
 
   // 如果有保存的名字與電話，顯示這些資料，加速初始載入
   if (displayName && displayPhone) {
-    nameEl.textContent = `姓名：${displayName}`;
-    phoneEl.textContent = `電話號碼：${displayPhone}`;
+    nameEl.textContent = `${displayName}`;
+    phoneEl.textContent = `${displayPhone}`;
   }
 
   // 發送請求以查詢會員資料
@@ -69,17 +69,17 @@
         localStorage.setItem("displayPhone", data.Phone);
 
         // 顯示會員資料
-        nameEl.textContent = `姓名：${data.Name}`;
-        phoneEl.textContent = `電話號碼：${data.Phone}`;
+        nameEl.textContent = `${data.Name}`;
+        phoneEl.textContent = `${data.Phone}`;
       } else {
-        nameEl.textContent = "姓名：未知";
-        phoneEl.textContent = "電話號碼：未知";
+        nameEl.textContent = "未知";
+        phoneEl.textContent = "未知";
       }
     })
     .catch(err => {
       console.error("查詢會員錯誤：", err);
-      nameEl.textContent = "姓名：未知";
-      phoneEl.textContent = "電話號碼：未知";
+      nameEl.textContent = "未知";
+      phoneEl.textContent = "未知";
     });
 });
 </script>
