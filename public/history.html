@@ -25,9 +25,17 @@
         <p>此頁會從後端抓取會員資料，包含：</p>
       
         <div class="info-box">
-          <p>產品資訊：</p>
-          <p>購買日期：</p>
-          <p>費用金額：</p>
+            <p>訂單編號：</p>
+            <p>訂單狀態：</p>
+            <p>購買日期：</p>
+            <p>收件人：</p>
+            <p>收件地址：</p>
+            <p>運送方式：</p>
+            <p>運送日期：</p>
+            <p>付款方式：</p>
+            <p>產品金額：</p>
+            <p>運費：</p>
+            <p>總金額：</p>
         </div>
       
         <p class="note">（資料由後端 API 提供）</p>
@@ -41,6 +49,7 @@
                 window.location.href = 'index.html';
                 return;
             }
+            document.querySelector('.username').textContent = `歡迎，${phone}`;
             
             const infoBox = document.querySelector('.info-box');
             infoBox.innerHTML = '<p>載入中，請稍候...</p>';
@@ -53,21 +62,28 @@
                 });
 
                 const result = await response.json();
-                console.log('API 回傳資料：', result);
-                
-                if(response.ok && Array.isArray(result) && result.length > 0){
-                    infoBox.innerHTML = '';
-                    
-                    result.forEach(order => {
+
+                if(response.ok && result.orders){
+                    const orderList = document.querySelector('.info-box');
+                    result.orders.forEach(order => {
+                        const fullAddress = `${order.Receiver_City}${order.Receiver_District}${order.Receiver_Address}`;
                         const orderItem = `
                             <div class="orderItem">
-                                <p>產品資訊：${order.product || 'N/A'}</p>
-                                <p>購買日期：${order.date || 'N/A'}</p>
-                                <p>費用金額：${order.price || 'N/A'}</p>
+                                <p>訂單編號：${order.Order_No || 'N/A'}</p>
+                                <p>訂單狀態：${order.Order_Status || 'N/A'}</p>
+                                <p>購買日期：${order.product || 'N/A'}</p>
+                                <p>收件人：${order.Receiver_Name || 'N/A'}</p>
+                                <p>收件地址：${fullAddress || 'N/A'}</p>
+                                <p>運送方式：${order.ShippingMethod || 'N/A'}</p>
+                                <p>運送日期：${order.DeliveryTime|| 'N/A'}</p>
+                                <p>付款方式：${order.PaymentMethod || 'N/A'}</p>
+                                <p>產品金額：${order.TotalProductPrice || 'N/A'}</p>
+                                <p>運費：${order.ShippingFee || 'N/A'}</p>
+                                <p>總金額：${order.TotalPrice || 'N/A'}</p>
                                 <hr>
                             </div>
                         `;
-                        infoBox.innerHTML += orderItem;
+                        orderList.innerHTML += orderItem;
                     });
                 }
                 else{
@@ -80,6 +96,5 @@
             }
         }
     </script>
-    <script src="welcome-username.js"></script>
 </body>
 </html>
