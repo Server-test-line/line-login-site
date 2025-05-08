@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const { Account_Name } = req.body;
 
         if (!Account_Name) {
-            return res.status(400).json({ message: '缺少會員名稱 (Account_Name)' });
+            return res.status(400).json({ message: '無會員電話號碼' });
         }
 
         const repairResponse = await fetch('https://webapi.vastar.com.tw/api/RepairOrder/Query', {
