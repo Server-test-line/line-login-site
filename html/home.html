@@ -23,6 +23,33 @@
       <a href="info.html" class="big-card repair">會員資料</a>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const accountName = localStorage.getItem("userName");
   
+    if (!accountName) {
+      document.querySelector('.username').textContent = "歡迎，訪客";
+      return;
+    }
+  
+    fetch('/api/proxy-query', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ Account_Name: accountName })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.Result === 0 && data.Name) {
+          document.querySelector('.username').textContent = `歡迎，${data.Name}`;
+        } else {
+          document.querySelector('.username').textContent = "歡迎，會員";
+        }
+      })
+      .catch(err => {
+        console.error("查詢會員錯誤：", err);
+        document.querySelector('.username').textContent = "歡迎，會員";
+      });
+    });
+  </script>
 </body>
 </html>
