@@ -25,56 +25,66 @@
         <p>此頁會從後端抓取會員資料，包含：</p>
       
         <div class="info-box">
-          <p>電話號碼：<span id="phone"></span></p>
           <p>姓名：<span id="name"></span></p>
+          <p>電話號碼：<span id="phone"></span></p>
+          <p>地址：<span id="address"></span></p>
         </div>
       
         <p class="note">（資料由後端 API 提供）</p>
         <a href="home.html" class="back-button">← 回首頁</a>
     </div>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const accountName = localStorage.getItem("userName");
-        const displayName = localStorage.getItem("displayName");
-        const displayPhone = localStorage.getItem("displayPhone");
-
-        const nameEl = document.querySelector('#name');
-        const phoneEl = document.querySelector('#phone');
-
-        if (!accountName) {
+        document.addEventListener("DOMContentLoaded", function () {
+          const accountName = localStorage.getItem("userName");
+          const displayName = localStorage.getItem("displayName");
+          const displayPhone = localStorage.getItem("displayPhone");
+          const displayAddress = localStorage.getItem("displayAddress");
+        
+          const nameEl = document.querySelector('#name');
+          const phoneEl = document.querySelector('#phone');
+          const addressEl = document.querySelector('#address');
+        
+          if (!accountName) {
             nameEl.textContent = "訪客";
             phoneEl.textContent = "未提供";
+            addressEl.textContent = "未提供";
             return;
-        }
-
-        // 預先顯示快取資料
-        if (displayName) nameEl.textContent = displayName;
-        if (displayPhone) phoneEl.textContent = displayPhone;
-
-        fetch('/api/proxy-query', {
+          }
+        
+          if (displayName && displayPhone && displayAddress) {
+            nameEl.textContent = `${displayName}`;
+            phoneEl.textContent = `${displayPhone}`;
+            addressEl.textContent = `${displayAddress}`;
+          }
+        
+          fetch('/api/proxy-query', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ Account_Name: accountName })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.Result === 0 && data.Name && data.MobilePhone) {
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.Result === 0 && data.Name && data.MobilePhone && data.Address) {
                 localStorage.setItem("displayName", data.Name);
                 localStorage.setItem("displayPhone", data.MobilePhone);
-
-                nameEl.textContent = data.Name;
-                phoneEl.textContent = data.MobilePhone;
-            } else {
+                localStorage.setItem("displayAddress", data.Address);
+        
+                nameEl.textContent = `${data.Name}`;
+                phoneEl.textContent = `${data.MobilePhone}`;
+                addressEl.textContent = `${data.Address}`;
+              } else {
                 nameEl.textContent = "未知";
                 phoneEl.textContent = "未知";
-            }
-        })
-        .catch(err => {
-            console.error("查詢會員錯誤：", err);
-            nameEl.textContent = "未知";
-            phoneEl.textContent = "未知";
+                addressEl.textContent = "未知";
+              }
+            })
+            .catch(err => {
+              console.error("查詢會員錯誤：", err);
+              nameEl.textContent = "未知";
+              phoneEl.textContent = "未知";
+              addressEl.textContent = "未知";
+            });
         });
-    });
     </script>
 <script src="welcome-username.js"></script>
 </body>
