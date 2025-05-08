@@ -41,39 +41,42 @@
                 window.location.href = 'index.html';
                 return;
             }
-        }
-        document.querySelector('.username').textContent = `歡迎，${phone}`;
-
-        try{
-            const response = await fetch('/api/proxy-orderhistory',{
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ Account_Name: phone})
-            });
-
-            const result = await response.json();
-
-            if(response.ok && result.orders){
-                const orderList = document.querySelector('.info-box');
-                result.orders.forEach(order => {
-                    const orderItem = `
-                        <div class="orderItem">
-                            <p>產品資訊：${order.product || 'N/A'}</p>
-                            <p>購買日期：${order.date || 'N/A'}</p>
-                            <p>費用金額：${order.price || 'N/A'}</p>
-                            <hr>
-                        </div>
-                    `;
-                    orderList.innerHTML += orderItem;
+            document.querySelector('.username').textContent = `歡迎，${phone}`;
+            
+            const infoBox = document.querySelector('.info-box');
+            infoBox.innerHTML = '<p>載入中，請稍候...</p>';
+            
+            try{
+                const response = await fetch('/api/proxy-orderhistory',{
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ Account_Name: phone})
                 });
+
+                const result = await response.json();
+
+                if(response.ok && result.orders){
+                    const orderList = document.querySelector('.info-box');
+                    result.orders.forEach(order => {
+                        const orderItem = `
+                            <div class="orderItem">
+                                <p>產品資訊：${order.product || 'N/A'}</p>
+                                <p>購買日期：${order.date || 'N/A'}</p>
+                                <p>費用金額：${order.price || 'N/A'}</p>
+                                <hr>
+                            </div>
+                        `;
+                        orderList.innerHTML += orderItem;
+                    });
+                }
+                else{
+                    document.querySelector('.info-box').innerHTML = '<p>無訂單資料</p>';
+                }
             }
-            else{
-                document.querySelector('.info-box').innerHTML = '<p>無訂單資料</p>';
+            catch (error){
+                console.error('查詢失敗:', error);
+                document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
             }
-        }
-        catch (error){
-            console.error('查詢失敗:', error);
-            document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
         }
     </script>
 </body>
