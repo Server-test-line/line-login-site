@@ -70,17 +70,17 @@
                         const fullAddress = `${order.Receiver_City}${order.Receiver_District}${order.Receiver_Address}`;
                         const orderItem = `
                             <div class="orderItem">
-                                <p>訂單編號：${order.Order_No || 'N/A'}</p>
-                                <p>訂單狀態：${order.Order_Status || 'N/A'}</p>
-                                <p>購買日期：${order.product || 'N/A'}</p>
-                                <p>收件人：${order.Receiver_Name || 'N/A'}</p>
-                                <p>收件地址：${fullAddress || 'N/A'}</p>
-                                <p>運送方式：${order.ShippingMethod || 'N/A'}</p>
-                                <p>運送日期：${order.DeliveryTime|| 'N/A'}</p>
-                                <p>付款方式：${order.PaymentMethod || 'N/A'}</p>
-                                <p>產品金額：${order.TotalProductPrice || 'N/A'}</p>
-                                <p>運費：${order.ShippingFee || 'N/A'}</p>
-                                <p>總金額：${order.TotalPrice || 'N/A'}</p>
+                                <p>訂單編號：${order.Order_No || ''}</p>
+                                <p>訂單狀態：${order.Order_Status || ''}</p>
+                                <p>訂購日期：${order.OrderEstablishTime || ''}</p>
+                                <p>收件人：${order.Receiver_Name || ''}</p>
+                                <p>收件地址：${fullAddress || ''}</p>
+                                <p>運送方式：${order.ShippingMethod || ''}</p>
+                                <p>運送日期：${order.DeliveryTime|| ''}</p>
+                                <p>付款方式：${order.PaymentMethod || ''}</p>
+                                <p>產品金額：${order.TotalProductPrice || ''}</p>
+                                <p>運費：${order.ShippingFee || ''}</p>
+                                <p>總金額：${order.TotalPrice || ''}</p>
                                 <hr>
                             </div>
                         `;
