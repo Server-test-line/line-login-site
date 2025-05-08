@@ -13,7 +13,9 @@
         </div>
         <div class="nav-right">
             <a href="home.html" class="nav-link">首頁</a>
+            <a href="query.html" class="nav-link">報修查詢</a>
             <a href="repair.html" class="nav-link">報修</a>
+            <a href="info.html" class="nav-link">會員資料</a>
         </div>
     </div>
 
@@ -35,10 +37,10 @@
     </div>
     <script>
         window.onload = async function () {
-            const phone = localStorage.getItem('Account_Name');
+            const phone = localStorage.getItem('userName');
             if (!phone) {
                 alert('請先登入');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
                 return;
             }
         
