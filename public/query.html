@@ -49,7 +49,7 @@
             usernameSpan.textContent = `歡迎，${accountName}`;
         
             // 3. 呼叫自己的 API route
-            fetch('/api/repair-query', {
+            fetch('/api/proxy-repair', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ Account_Name: accountName })
@@ -85,6 +85,6 @@
             });
         });
     </script>
-    <script src="repair_query.js"></script>
+    <script src="welcome-username.js"></script>
 </body>
 </html>
