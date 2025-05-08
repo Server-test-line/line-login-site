@@ -35,9 +35,8 @@
     </div>
     <script>
         window.onload = async function () {
-            // 1. 取得會員電話 (Account_Name)
-            const accountName = localStorage.getItem('Account_Name');
-            if (!accountName) {
+            const phone = localStorage.getItem('Account_Name');
+            if (!phone) {
                 alert('請先登入');
                 window.location.href = 'login.html';
                 return;
@@ -47,16 +46,12 @@
             const infoBox = document.querySelector('.info-box');
             infoBox.innerHTML = '<p>載入中，請稍候...</p>';
         
-            // 3. 同時顯示會員名字
-            const usernameSpan = document.querySelector('.username');
-            usernameSpan.textContent = `歡迎，${accountName}`;
-        
             try {
                 // 4. 呼叫 API
                 const response = await fetch('/api/proxy-repair', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ Account_Name: accountName })
+                    body: JSON.stringify({ Account_Name: phone })
                 });
         
                 const result = await response.json();
@@ -80,11 +75,11 @@
                         infoBox.innerHTML += repairItem;
                     });
                 } else {
-                    infoBox.innerHTML = '<p>查無報修資料</p>';
+                    document.querySelector('.info-box').innerHTML = '<p>查無報修資料</p>';
                 }
             } catch (error) {
                 console.error('查詢失敗:', error);
-                infoBox.innerHTML = '<p>發生錯誤，請稍後再試</p>';
+                document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
             }
         }
     </script>
