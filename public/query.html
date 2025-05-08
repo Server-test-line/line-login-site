@@ -33,5 +33,57 @@
         <p class="note">（資料由後端 API 提供）</p>
         <a href="home.html" class="back-button">← 回首頁</a>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 取得 Account_Name（會員電話號碼）
+            const accountName = localStorage.getItem('Account_Name');
+        
+            if (!accountName) {
+                alert('請先登入才能查詢報修紀錄');
+                window.location.href = 'login.html';
+                return;
+            }
+        
+            // 2. 顯示會員名字
+            const usernameSpan = document.querySelector('.username');
+            usernameSpan.textContent = `歡迎，${accountName}`;
+        
+            // 3. 呼叫自己的 API route
+            fetch('/api/repair-query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Account_Name: accountName })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('伺服器查詢失敗');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const infoBox = document.querySelector('.info-box');
+        
+                if (!Array.isArray(data) || data.length === 0) {
+                    infoBox.innerHTML = '<p>查無報修資料</p>';
+                    return;
+                }
+        
+                // 顯示第一筆資料 (需要可改顯示多筆)
+                const record = data[0];
+        
+                infoBox.innerHTML = `
+                    <p>維修單號：${record.Repair_No}</p>
+                    <p>產品名稱：${record.Product_Name}</p>
+                    <p>送修日期：${record.Repair_Date}</p>
+                    <p>故障原因：${record.Failure_Cause}</p>
+                    <p>目前狀態：${record.Status}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('查詢失敗:', error);
+                alert('查詢報修紀錄失敗，請稍後再試');
+            });
+        });
+    </script>
 </body>
 </html>
