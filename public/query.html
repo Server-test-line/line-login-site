@@ -35,55 +35,58 @@
     </div>
     <script>
         window.onload = async function () {
-            
+            // 1. 取得會員電話 (Account_Name)
             const accountName = localStorage.getItem('Account_Name');
-        
             if (!accountName) {
-                alert('請先登入才能查詢報修紀錄');
+                alert('請先登入');
                 window.location.href = 'login.html';
                 return;
             }
         
-            // 2. 顯示會員名字
+            // 2. 預設 infoBox 顯示「載入中」
+            const infoBox = document.querySelector('.info-box');
+            infoBox.innerHTML = '<p>載入中，請稍候...</p>';
+        
+            // 3. 同時顯示會員名字
             const usernameSpan = document.querySelector('.username');
             usernameSpan.textContent = `歡迎，${accountName}`;
         
-            // 3. 呼叫自己的 API route
-            fetch('/api/proxy-repair', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Account_Name: accountName })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('伺服器查詢失敗');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const infoBox = document.querySelector('.info-box');
+            try {
+                // 4. 呼叫 API
+                const response = await fetch('/api/proxy-repair', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Account_Name: accountName })
+                });
         
-                if (!Array.isArray(data) || data.length === 0) {
+                const result = await response.json();
+                console.log('API 回傳資料：', result);
+        
+                // 5. 處理資料
+                if (response.ok && Array.isArray(result) && result.length > 0) {
+                    infoBox.innerHTML = '';
+        
+                    result.forEach(repair => {
+                        const repairItem = `
+                            <div class="repairItem">
+                                <p>維修單號：${repair.Repair_No || ''}</p>
+                                <p>產品名稱：${repair.Product_Name || ''}</p>
+                                <p>送修日期：${repair.Repair_Date || ''}</p>
+                                <p>故障原因：${repair.Failure_Cause || ''}</p>
+                                <p>目前狀態：${repair.Status || ''}</p>
+                                <hr>
+                            </div>
+                        `;
+                        infoBox.innerHTML += repairItem;
+                    });
+                } else {
                     infoBox.innerHTML = '<p>查無報修資料</p>';
-                    return;
                 }
-        
-                // 顯示第一筆資料 (需要可改顯示多筆)
-                const record = data[0];
-        
-                infoBox.innerHTML = `
-                    <p>維修單號：${record.Repair_No}</p>
-                    <p>產品名稱：${record.Product_Name}</p>
-                    <p>送修日期：${record.Repair_Date}</p>
-                    <p>故障原因：${record.Failure_Cause}</p>
-                    <p>目前狀態：${record.Status}</p>
-                `;
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('查詢失敗:', error);
-                alert('查詢報修紀錄失敗，請稍後再試');
-            });
-        });
+                infoBox.innerHTML = '<p>發生錯誤，請稍後再試</p>';
+            }
+        }
     </script>
     <script src="welcome-username.js"></script>
 </body>
