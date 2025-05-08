@@ -33,5 +33,48 @@
         <p class="note">（資料由後端 API 提供）</p>
         <a href="home.html" class="back-button">← 回首頁</a>
     </div>
+    <script>
+        window.onload = async function () {
+            const phone = localStorage.getItem('userName');
+            if(!phone){
+                alert('請先登入');
+                window.location.href = 'index.html';
+                return;
+            }
+        }
+        document.querySelector('.username').textContent = `歡迎，${phone}`;
+
+        try{
+            const response = await fetch('/api/proxy-orderhistory',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ Account_Name: phone})
+            });
+
+            const result = await response.json();
+
+            if(response.ok && result.orders){
+                const orderList = document.querySelector('.info-box');
+                result.orders.forEach(order => {
+                    const orderItem = `
+                        <div class="orderItem">
+                            <p>產品資訊：${order.product || 'N/A'}</p>
+                            <p>購買日期：${order.date || 'N/A'}</p>
+                            <p>費用金額：${order.price || 'N/A'}</p>
+                            <hr>
+                        </div>
+                    `;
+                    orderList.innerHTML += orderItem;
+                });
+            }
+            else{
+                document.querySelector('.info-box').innerHTML = '<p>無訂單資料</p>';
+            }
+        }
+        catch (error){
+            console.error('查詢失敗:', error);
+            document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
+        }
+    </script>
 </body>
 </html>
