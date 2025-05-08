@@ -34,8 +34,8 @@
         <a href="home.html" class="back-button">← 回首頁</a>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. 取得 Account_Name（會員電話號碼）
+        window.onload = async function () {
+            
             const accountName = localStorage.getItem('Account_Name');
         
             if (!accountName) {
