@@ -53,10 +53,12 @@
                 });
 
                 const result = await response.json();
-
-                if(response.ok && result.Result){
-                    const orderList = document.querySelector('.info-box');
-                    result.orders.forEach(order => {
+                console.log('API 回傳資料：', result);
+                
+                if(response.ok && Array.isArray(result) && result.length > 0){
+                    infoBox.innerHTML = '';
+                    
+                    result.forEach(order => {
                         const orderItem = `
                             <div class="orderItem">
                                 <p>產品資訊：${order.product || 'N/A'}</p>
@@ -65,7 +67,7 @@
                                 <hr>
                             </div>
                         `;
-                        orderList.innerHTML += orderItem;
+                        infoBox.innerHTML += orderItem;
                     });
                 }
                 else{
