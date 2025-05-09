@@ -15,12 +15,23 @@
 
   <div class="page-title">會員功能首頁</div>
 
-  <div class="menu-card-container">
+  <div class="card-wrapper">
+    <div class="menu-card-container">
       <a href="query.html" class="big-card query">報修查詢</a>
       <a href="repair.html" class="big-card repair">報修</a>
       <a href="history.html" class="big-card repair">購買歷史</a>
       <a href="info.html" class="big-card repair">會員資料</a>
+    </div>
   </div>
+<script>
+    window.onload = async function () {
+      const phone = localStorage.getItem('userName');
+      if(!phone){
+          alert('請先登入');
+          window.location.href = 'index.html';
+          return;
+      }
+</script>
 <script src="welcome-username.js"></script>
 </body>
 </html>
