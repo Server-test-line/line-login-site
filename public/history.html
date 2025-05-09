@@ -52,6 +52,14 @@
             
             const infoBox = document.querySelector('.info-box');
             infoBox.innerHTML = '<p>載入中，請稍候...</p>';
+
+            const cacheKey = `orderHistory_${phone}`;
+            const cachedData = localStorage.getItem(cacheKey);
+
+            if (cachedData) {
+                renderOrders(JSON.parse(cachedData));
+                return;
+            }
             
             try{
                 const response = await fetch('/api/proxy-orderhistory',{
