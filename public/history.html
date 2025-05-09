@@ -57,51 +57,57 @@
             const cachedData = localStorage.getItem(cacheKey);
 
             if (cachedData) {
-                renderOrders(JSON.parse(cachedData));
+                const parsed = JSON.parse(cachedData);
+                orders(parsed.data);
                 return;
             }
             
-            try{
-                const response = await fetch('/api/proxy-orderhistory',{
+            try {
+                const response = await fetch('/api/proxy-orderhistory', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ Account_Name: phone})
+                    body: JSON.stringify({ Account_Name: phone })
                 });
 
                 const result = await response.json();
                 console.log('API 回傳資料：', result);
-                
-                if(response.ok && Array.isArray(result) && result.length > 0){
-                    infoBox.innerHTML = '';
-                    
-                    result.forEach(order => {
-                        const fullAddress = `${order.Receiver_City}${order.Receiver_District}${order.Receiver_Address}`;
-                        const orderItem = `
-                            <div class="orderItem">
-                                <p>訂單編號：${order.Order_No || ''}</p>
-                                <p>訂單狀態：${order.Order_Status || ''}</p>
-                                <p>訂購日期：${order.OrderEstablishTime || ''}</p>
-                                <p>收件人：${order.Receiver_Name || ''}</p>
-                                <p>收件地址：${fullAddress || ''}</p>
-                                <p>運送方式：${order.ShippingMethod || ''}</p>
-                                <p>運送日期：${order.DeliveryTime|| ''}</p>
-                                <p>付款方式：${order.PaymentMethod || ''}</p>
-                                <p>產品金額：${order.TotalProductPrice || ''}</p>
-                                <p>運費：${order.ShippingFee || ''}</p>
-                                <p>總金額：${order.TotalPrice || ''}</p>
-                                <hr>
-                            </div>
-                        `;
-                        infoBox.innerHTML += orderItem;
-                    });
+
+                if (response.ok && Array.isArray(result) && result.length > 0) {
+                    localStorage.setItem(cacheKey, JSON.stringify({
+                        timestamp: Date.now(),
+                        data: result
+                    }));
+                    orders(result);
+                } else {
+                    infoBox.innerHTML = '<p>無訂單資料</p>';
                 }
-                else{
-                    document.querySelector('.info-box').innerHTML = '<p>無訂單資料</p>';
-                }
-            }
-            catch (error){
+            } catch (error) {
                 console.error('查詢失敗:', error);
-                document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
+                infoBox.innerHTML = '<p>發生錯誤，請稍後再試</p>';
+            }
+
+            function orders(data) {
+                infoBox.innerHTML = '';
+                data.forEach(order => {
+                    const fullAddress = `${order.Receiver_City}${order.Receiver_District}${order.Receiver_Address}`;
+                    const orderItem = `
+                        <div class="orderItem">
+                            <p>訂單編號：${order.Order_No || ''}</p>
+                            <p>訂單狀態：${order.Order_Status || ''}</p>
+                            <p>訂購日期：${order.OrderEstablishTime || ''}</p>
+                            <p>收件人：${order.Receiver_Name || ''}</p>
+                            <p>收件地址：${fullAddress || ''}</p>
+                            <p>運送方式：${order.ShippingMethod || ''}</p>
+                            <p>運送日期：${order.DeliveryTime|| ''}</p>
+                            <p>付款方式：${order.PaymentMethod || ''}</p>
+                            <p>產品金額：${order.TotalProductPrice || ''}</p>
+                            <p>運費：${order.ShippingFee || ''}</p>
+                            <p>總金額：${order.TotalPrice || ''}</p>
+                            <hr>
+                        </div>
+                    `;
+                    infoBox.innerHTML += orderItem;
+                });
             }
         }
     </script>
