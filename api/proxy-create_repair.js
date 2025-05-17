@@ -18,8 +18,8 @@ export default async function handler(req, res) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: process.env.USER_ID,  // 從環境變數中讀取
-                Password: process.env.PASSWORD,  // 從環境變數中讀取
+                UserID: 'vastar',
+                Password: 'vastar@2673',
                 Account_Name: Account_Name  // 會員電話號碼
             })
         });
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        UserID: process.env.USER_ID,  // 從環境變數中讀取
-                        Password: process.env.PASSWORD,  // 從環境變數中讀取
+                        UserID: 'vastar',
+                        Password: 'vastar@2673',
                         Order_No: orderNo  // 當前訂單編號
                     })
                 });
