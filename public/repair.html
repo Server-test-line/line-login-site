@@ -25,15 +25,12 @@
         <form onsubmit="return confirmSubmit()">
           <div class="form-group">
             <label for="product-id">商品名稱：序號</label>
-            <select id="method" name="method">
-              <option value="store">0</option>
-              <option value="home">1</option>
-              <option value="company">2</option>
+            <select id="product-id" name="product-id">
+              //自動生成
             </select>
           </div>
       
           <div class="form-group">
-            <label for="method">此頁會從後端抓取會員資料，包含：</label>
             <select id="method" name="method">
               <option value="store">宅急便上門收件</option>
               <option value="home">自行送至公司</option>
@@ -48,6 +45,40 @@
     </div>
 
     <script>
+        window.onload = async function () {
+            const phone = localStorage.getItem('userName');
+            if(!phone){
+                alert('請先登入');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // 發送請求到後端 API 查詢訂單資料
+            const response = await fetch('/api/proxy-create_repair', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Account_Name: accountName })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                
+                // 清空下拉選單
+                const selectElement = document.querySelector('#product-id');
+                selectElement.innerHTML = '';  // 清除現有的選項
+
+                // 動態填充下拉選單
+                data.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.Product_No;  // 產品序號作為選項值
+                    option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
+                    selectElement.appendChild(option);  // 添加選項到下拉選單
+                });
+            } else {
+                console.error('查詢失敗');
+            }
+        };
+
         function confirmSubmit() {
             alert("報修資料已送出！（模擬功能）");
             return false; // 阻止實際送出
