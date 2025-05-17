@@ -57,7 +57,7 @@
             const response = await fetch('/api/proxy-create_repair', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Account_Name: accountName })
+                body: JSON.stringify({ Account_Name: phone })
             });
 
             if (response.ok) {
