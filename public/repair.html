@@ -52,30 +52,46 @@
                 window.location.href = 'index.html';
                 return;
             }
-            
-            // 發送請求到後端 API 查詢訂單資料
-            const response = await fetch('/api/proxy-create_repair', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Account_Name: phone })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                
+            let productData = localStorage.getItem('productData');
+            if (productData) {
+                productData = JSON.parse(productData);  // 解析資料
                 // 清空下拉選單
                 const selectElement = document.querySelector('#product-id');
                 selectElement.innerHTML = '';  // 清除現有的選項
 
                 // 動態填充下拉選單
-                data.forEach(product => {
+                productData.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.Product_No;  // 產品序號作為選項值
+                option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
+                selectElement.appendChild(option);  // 添加選項到下拉選單
+                });
+            }
+            else{
+                // 發送請求到後端 API 查詢訂單資料
+                const response = await fetch('/api/proxy-create_repair', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Account_Name: phone })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                
+                    // 清空下拉選單
+                    const selectElement = document.querySelector('#product-id');
+                    selectElement.innerHTML = '';  // 清除現有的選項
+
+                    // 動態填充下拉選單
+                    data.forEach(product => {
                     const option = document.createElement('option');
                     option.value = product.Product_No;  // 產品序號作為選項值
                     option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
                     selectElement.appendChild(option);  // 添加選項到下拉選單
-                });
-            } else {
-                console.error('查詢失敗');
+                    });
+                } else {
+                    console.error('查詢失敗');
+                }
             }
         };
 
