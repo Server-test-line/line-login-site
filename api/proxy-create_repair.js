@@ -18,8 +18,8 @@ export default async function handler(req, res) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: 'vastar',  // 你的 UserID
-                Password: 'vastar@2673',  // 你的密碼
+                UserID: process.env.USER_ID,  // 從環境變數中讀取
+                Password: process.env.PASSWORD,  // 從環境變數中讀取
                 Account_Name: Account_Name  // 會員電話號碼
             })
         });
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        UserID: 'vastar',  // 你的 UserID
-                        Password: 'vastar@2673',  // 你的密碼
+                        UserID: process.env.USER_ID,  // 從環境變數中讀取
+                        Password: process.env.PASSWORD,  // 從環境變數中讀取
                         Order_No: orderNo  // 當前訂單編號
                     })
                 });
@@ -67,7 +67,14 @@ export default async function handler(req, res) {
                             Product_Name: product.Product_Name  // 產品名稱
                         });
                     });
+                } else {
+                    console.warn(`訂單 ${orderNo} 沒有產品資料`);
                 }
+            }
+
+            // 檢查是否查詢到任何產品資料
+            if (allProductDetails.length === 0) {
+                return res.status(404).json({ message: '該會員沒有訂單資料或產品資料' });
             }
 
             // 回傳所有查詢到的產品序號與名稱
