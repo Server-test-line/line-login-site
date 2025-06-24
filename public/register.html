@@ -61,17 +61,66 @@
       alert("驗證碼已發送！（模擬功能）");
     }
 
-    function confirmRegister() {
-      // 這裡可加入密碼比對邏輯
+    async function confirmRegister() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
       const pwd = document.getElementById("password").value;
       const confirm = document.getElementById("confirm-password").value;
+      const code = document.getElementById("verification").value;
+  
+      if (!name || !phone || !pwd || !confirm || !code) {
+        alert("請完整填寫所有欄位！");
+        return false;
+      }
+  
       if (pwd !== confirm) {
         alert("兩次輸入的密碼不一致！");
         return false;
       }
-      alert("註冊成功！（模擬功能）");
-      window.location.href = "index.html";
-      return false;
+  
+      // 步驟 1：查詢此手機號碼是否已註冊
+      try {
+        const checkRes = await fetch('/api/proxy-checkuser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ Account_Name: phone })
+        });
+  
+        const checkData = await checkRes.json();
+        if (checkData.registered) {
+          alert("此手機號碼已註冊，請改用其他號碼");
+          return false;
+        }
+      } catch (error) {
+        alert("查詢帳號發生錯誤！");
+        return false;
+      }
+  
+      try {
+        const registerRes = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            Account_Name: phone,
+            Password: pwd,
+            Name: name,
+            Phone_Check: 1  // 找到OTP方法要改掉
+          })
+        });
+  
+        const registerData = await registerRes.json();
+        if (registerRes.ok) {
+          alert("註冊成功！");
+          window.location.href = "index.html";
+          return false;
+        } else {
+          alert("註冊失敗：" + registerData.message);
+          return false;
+        }
+      } catch (error) {
+        alert("註冊時發生錯誤！");
+        return false;
+      }
     }
   </script>
 </body>
