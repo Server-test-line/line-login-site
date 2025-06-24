@@ -118,7 +118,21 @@
                 }
             }
         };
-
+        function updateDeliveryOptions() {
+            const method = document.getElementById("method").value;
+            document.getElementById("homeAddressGroup").classList.add("hidden");
+            document.getElementById("companyAddressGroup").classList.add("hidden");
+            document.getElementById("storeSelectGroup").classList.add("hidden");
+    
+            if (method === "home") {
+                document.getElementById("homeAddressGroup").classList.remove("hidden");
+            } else if (method === "self") {
+                document.getElementById("companyAddressGroup").classList.remove("hidden");
+            } else if (method === "store") {
+                document.getElementById("storeSelectGroup").classList.remove("hidden");
+            }
+        }
+        
         function confirmSubmit() {
             alert("報修資料已送出！（模擬功能）");
             return false; // 阻止實際送出
