@@ -231,4 +231,7 @@ body {
     flex-direction: column;
     gap: 15px; /* 每項之間的垂直距離 */
   }
-  
+
+.hidden {
+  display: none;
+}
