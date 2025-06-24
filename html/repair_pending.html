@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>飛騰家電 - 報修</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .form-group { margin-bottom: 15px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-left">
+      <img src="logo1.png" alt="飛騰家電logo" class="logo" />
+      <span class="username">歡迎，會員名字</span>
+    </div>
+    <div class="nav-right">
+      <a href="home.html" class="nav-link">首頁</a>
+      <a href="repair_checking.html" class="nav-link">報修</a>
+      <a href="repair_pending.html" class="nav-link">報修查詢</a>
+      <a href="repair_done.html" class="nav-link">報修紀錄</a>
+      <a href="history.html" class="nav-link">購買歷史</a>
+      <a href="info.html" class="nav-link">會員資料</a>
+      <a href="index.html" class="nav-link">登出</a>
+    </div>
+  </div>
+
+  <div class="page-title">產品報修</div>
+
+  <div class="repair-form">
+    <form onsubmit="return confirmSubmit()">
+      <!-- A. 商品選擇 -->
+      <div class="form-group">
+        <label for="product">報修商品：</label>
+        <select id="product" name="product" required>
+          <option value="">請選擇商品</option>
+          <option value="airfryer">飛騰氣炸鍋</option>
+          <option value="pot">飛騰智慧電鍋</option>
+          <option value="induction">飛騰電磁爐</option>
+        </select>
+      </div>
+
+      <!-- B. 維修方式選擇 -->
+      <div class="form-group">
+        <label for="method">維修方式：</label>
+        <select id="method" name="method" onchange="updateDeliveryOptions()" required>
+          <option value="">請選擇維修方式</option>
+          <option value="home">到府收件</option>
+          <option value="self">自行宅配</option>
+          <option value="store">送至專櫃</option>
+        </select>
+      </div>
+
+      <!-- C1. 到府收件 → 輸入地址 -->
+      <div class="form-group hidden" id="homeAddressGroup">
+        <label for="home-address">收件地址：</label>
+        <input type="text" id="home-address" name="home-address" placeholder="請輸入您的收件地址">
+      </div>
+
+      <!-- C2. 自行宅配 → 顯示飛騰地址 -->
+      <div class="form-group hidden" id="companyAddressGroup">
+        <p>請將產品寄至以下地址：</p>
+        <p>台北市中山區民權東路三段123號 飛騰家電 收</p>
+      </div>
+
+      <!-- C3. 送至專櫃 → 下拉選單 -->
+      <div class="form-group hidden" id="storeSelectGroup">
+        <label for="store-location">選擇專櫃：</label>
+        <select id="store-location" name="store-location">
+          <option value="">請選擇地點</option>
+          <option value="taipei101">台北 101 專櫃</option>
+          <option value="tainan-sogo">台南 SOGO</option>
+          <option value="kaohsiung-dreammall">高雄夢時代</option>
+        </select>
+      </div>
+
+      <!-- D. 提交 -->
+      <button type="submit" class="submit-button">確認報修</button>
+    </form>
+    <p class="note">如有問題請撥打電話：+886 2 2838 1010</p>
+    <a href="home.html" class="back-button">← 回首頁</a>
+  </div>
+
+  <script>
+    function updateDeliveryOptions() {
+      const method = document.getElementById("method").value;
+      document.getElementById("homeAddressGroup").classList.add("hidden");
+      document.getElementById("companyAddressGroup").classList.add("hidden");
+      document.getElementById("storeSelectGroup").classList.add("hidden");
+
+      if (method === "home") {
+        document.getElementById("homeAddressGroup").classList.remove("hidden");
+      } else if (method === "self") {
+        document.getElementById("companyAddressGroup").classList.remove("hidden");
+      } else if (method === "store") {
+        document.getElementById("storeSelectGroup").classList.remove("hidden");
+      }
+    }
+
+    function confirmSubmit() {
+      alert("報修資料已送出！（模擬功能）");
+      return false; // 防止實際送出
+    }
+  </script>
+</body>
+</html>
