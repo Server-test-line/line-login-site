@@ -27,7 +27,7 @@
   <div class="container">
     <img src="logo1.png" alt="飛騰家電logo" class="logo">
     <h2>會員註冊</h2>
-    <form onsubmit="return confirmRegister()" class="login-form">
+    <form onsubmit="event.preventDefault(); confirmRegister();" class="login-form">
       <div class="form-group">
         <label for="name">姓名：</label>
         <input type="text" id="name" name="name" required>
@@ -80,7 +80,7 @@
   
       // 步驟 1：查詢此手機號碼是否已註冊
       try {
-        const checkRes = await fetch('/api/proxy-checkuser', {
+        const checkRes = await fetch('/api/proxy-check-account', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ Account_Name: phone })
@@ -97,7 +97,7 @@
       }
   
       try {
-        const registerRes = await fetch('/api/register', {
+        const registerRes = await fetch('/api/proxy-register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
