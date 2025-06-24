@@ -27,7 +27,7 @@
   <div class="container">
     <img src="logo1.png" alt="飛騰家電logo" class="logo">
     <h2>會員註冊</h2>
-    <form onsubmit="event.preventDefault(); confirmRegister();" class="login-form">
+    <form onsubmit="event.preventDefault(); confirmRegister();">
       <div class="form-group">
         <label for="name">姓名：</label>
         <input type="text" id="name" name="name" required>
@@ -89,7 +89,7 @@
         const checkData = await checkRes.json();
         if (checkData.registered) {
           alert("此手機號碼已註冊，請改用其他號碼");
-          return false;
+          return;
         }
       } catch (error) {
         alert("查詢帳號發生錯誤！");
