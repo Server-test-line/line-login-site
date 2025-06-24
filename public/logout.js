@@ -1,7 +1,7 @@
 async function logout() {
   try {
     await fetch('/api/proxy-logout', { method: 'POST' });
-    localStorage.removeItem('userName');
+    localStorage.clear();
     window.location.href = 'index.html';
   } catch (error) {
     console.error('登出失敗', error);
