@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>飛騰家電 - 會員註冊</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .verification-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .verification-group input {
+      flex: 1;
+    }
+    .get-code-btn {
+      padding: 5px 10px;
+      background-color: #D2A679;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo1.png" alt="飛騰家電logo" class="logo">
+    <h2>會員註冊</h2>
+    <form onsubmit="return confirmRegister()" class="login-form">
+      <div class="form-group">
+        <label for="name">姓名：</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">手機號碼：</label>
+        <input type="text" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="password">密碼：</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">確認密碼：</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
+      <div class="form-group">
+        <label for="verification">驗證碼：</label>
+        <div class="verification-group">
+          <input type="text" id="verification" name="verification" required>
+          <button type="button" class="get-code-btn" onclick="getCode()">取得驗證碼</button>
+        </div>
+      </div>
+      <button type="submit" class="submit-button">註冊</button>
+    </form>
+    <a href="index.html" class="back-button">← 返回登入</a>
+  </div>
+
+  <script>
+    function getCode() {
+      alert("驗證碼已發送！（模擬功能）");
+    }
+
+    function confirmRegister() {
+      // 這裡可加入密碼比對邏輯
+      const pwd = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm-password").value;
+      if (pwd !== confirm) {
+        alert("兩次輸入的密碼不一致！");
+        return false;
+      }
+      alert("註冊成功！（模擬功能）");
+      window.location.href = "index.html";
+      return false;
+    }
+  </script>
+</body>
+</html>
