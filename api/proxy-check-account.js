@@ -1,10 +1,7 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
+  if (req.method !== 'POST') return res.status(405).json({ message: 'Method Not Allowed' });
 
   const { Account_Name } = req.body;
-
   try {
     const queryRes = await fetch('https://webapi.vastar.com.tw/api/Member/Query', {
       method: 'POST',
@@ -12,8 +9,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         UserID: 'vastar',
         Password: 'vastar@2673',
-        Account_Name
-      })
+        Account_Name,
+      }),
     });
 
     const queryData = await queryRes.json();
@@ -23,7 +20,6 @@ export default async function handler(req, res) {
     } else {
       return res.status(200).json({ registered: false, message: '此號碼尚未註冊，可使用' });
     }
-
   } catch (error) {
     return res.status(500).json({ message: '查詢失敗', error: error.message });
   }
