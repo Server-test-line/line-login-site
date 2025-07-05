@@ -111,14 +111,11 @@
             const method = document.getElementById("method").value;
             document.getElementById("homeAddressGroup").classList.add("hidden");
             document.getElementById("companyAddressGroup").classList.add("hidden");
-            document.getElementById("storeSelectGroup").classList.add("hidden");
     
             if (method === "home") {
                 document.getElementById("homeAddressGroup").classList.remove("hidden");
             } else if (method === "self") {
                 document.getElementById("companyAddressGroup").classList.remove("hidden");
-            } else if (method === "store") {
-                document.getElementById("storeSelectGroup").classList.remove("hidden");
             }
         }
         
