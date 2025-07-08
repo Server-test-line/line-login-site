@@ -8,6 +8,7 @@
     .form-group { margin-bottom: 15px; }
     .hidden { display: none; }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <div class="navbar">
@@ -16,13 +17,26 @@
       <span class="username">歡迎，會員名字</span>
     </div>
     <div class="nav-right">
-      <a href="home.html" class="nav-link">首頁</a>
-      <a href="repair_checking.html" class="nav-link">報修</a>
-      <a href="repair_pending.html" class="nav-link">報修查詢</a>
-      <a href="repair_done.html" class="nav-link">報修紀錄</a>
-      <a href="history.html" class="nav-link">購買歷史</a>
-      <a href="info.html" class="nav-link">會員資料</a>
-      <a href="index.html" class="nav-link">登出</a>
+        <a href="home.html" class="nav-link">首頁</a>
+        <a href="repair_checking.html" class="nav-link">報修</a>
+        <a href="repair_pending.html" class="nav-link">報修查詢</a>
+        <a href="repair_done.html" class="nav-link">報修紀錄</a>
+        <a href="history.html" class="nav-link">購買歷史</a>
+        <a href="info.html" class="nav-link">會員資料</a>
+        <a href="index.html" class="nav-link">登出</a>
+    </div>
+    <!-- 手機版的選單 -->
+    <div class="mobile-menu">
+        <button id="menu-toggle">☰</button>
+        <div id="mobile-dropdown" class="mobile-dropdown">
+            <a href="home.html">首頁</a>
+            <a href="repair_checking.html">報修</a>
+            <a href="repair_pending.html">報修查詢</a>
+            <a href="repair_done.html">報修紀錄</a>
+            <a href="history.html">購買歷史</a>
+            <a href="info.html">會員資料</a>
+            <a href="index.html">登出</a>
+        </div>
     </div>
   </div>
 
@@ -41,11 +55,21 @@
         </select>
       </div>
 
-      <!-- B. 維修方式選擇 -->
+       <!-- B.1 維修方式選擇 -->
       <div class="form-group">
-        <label for="method">維修方式：</label>
+        <label for="method">報修方式：</label>
+        <select id="method" name="method-1" required>
+          <option value="">是否已通知報修</option>
+          <option value="yes">是</option>
+          <option value="no">否</option>
+        </select>
+      </div>
+
+      <!-- B.2 送修方式選擇 -->
+      <div class="form-group">
+        <label for="method">送修方式：</label>
         <select id="method" name="method" onchange="updateDeliveryOptions()" required>
-          <option value="">請選擇維修方式</option>
+          <option value="">請選擇送修方式</option>
           <option value="home">到府收件</option>
           <option value="self">自行宅配</option>
           <option value="store">送至專櫃</option>
@@ -103,5 +127,15 @@
       return false; // 防止實際送出
     }
   </script>
+
+  <script>
+    const toggleButton = document.getElementById('menu-toggle');
+    const dropdown = document.getElementById('mobile-dropdown');
+
+    toggleButton.addEventListener('click', () => {
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    });
+  </script>
+
 </body>
 </html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>飛騰家電 - 報修查詢</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <div class="navbar">
@@ -12,13 +13,26 @@
       <span class="username">歡迎，會員名字</span>
     </div>
     <div class="nav-right">
-      <a href="home.html" class="nav-link">首頁</a>
-      <a href="repair_checking.html" class="nav-link">報修</a>
-      <a href="repair_pending.html" class="nav-link">報修查詢</a>
-      <a href="repair_done.html" class="nav-link">報修紀錄</a>
-      <a href="history.html" class="nav-link">購買歷史</a>
-      <a href="info.html" class="nav-link">會員資料</a>
-      <a href="index.html" class="nav-link">登出</a>
+        <a href="home.html" class="nav-link">首頁</a>
+        <a href="repair_checking.html" class="nav-link">報修</a>
+        <a href="repair_pending.html" class="nav-link">報修查詢</a>
+        <a href="repair_done.html" class="nav-link">報修紀錄</a>
+        <a href="history.html" class="nav-link">購買歷史</a>
+        <a href="info.html" class="nav-link">會員資料</a>
+        <a href="index.html" class="nav-link">登出</a>
+    </div>
+    <!-- 手機版的選單 -->
+    <div class="mobile-menu">
+        <button id="menu-toggle">☰</button>
+        <div id="mobile-dropdown" class="mobile-dropdown">
+            <a href="home.html">首頁</a>
+            <a href="repair_checking.html">報修</a>
+            <a href="repair_pending.html">報修查詢</a>
+            <a href="repair_done.html">報修紀錄</a>
+            <a href="history.html">購買歷史</a>
+            <a href="info.html">會員資料</a>
+            <a href="index.html">登出</a>
+        </div>
     </div>
   </div>
 
@@ -27,21 +41,37 @@
   <div class="query-content">
     <p>以下是您目前報修中的商品：</p>
 
-    <!-- 模擬顯示資料清單 -->
+    <!-- 第一組報修資料 -->
     <div class="info-box">
       <p>商品名稱：飛騰氣炸鍋</p>
       <p>報修單號：FT20240623001</p>
       <p>報修狀態：檢測中</p>
+      <p>會員姓名：徐子涵</p>
+      <p>會員電話：0908828081</p>
       <p>送修日期：2025/06/20</p>
-      <hr>
+    </div>
+
+    <!-- 第二組報修資料 -->
+    <div class="info-box">
       <p>商品名稱：飛騰智能電鍋</p>
       <p>報修單號：FT20240622002</p>
       <p>報修狀態：等待零件</p>
+      <p>會員姓名：徐子涵</p>
+      <p>會員電話：0908828081</p>
       <p>送修日期：2025/06/18</p>
     </div>
 
     <p class="note">（資料由後端 API 提供）</p>
     <a href="home.html" class="back-button">← 回首頁</a>
   </div>
+  
+  <script>
+    const toggleButton = document.getElementById('menu-toggle');
+    const dropdown = document.getElementById('mobile-dropdown');
+
+    toggleButton.addEventListener('click', () => {
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    });
+  </script>
 </body>
 </html>

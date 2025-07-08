@@ -1,234 +1,326 @@
-body {
-    font-family: "微軟正黑體", sans-serif;
-    background-color: #4a0d0d; /* 深紅背景 */
-    margin: 0;
-    padding: 0;
-    color: #ffffff;
-    text-align: center;
-  }
-  
-  /* 導覽欄與 logo */
+/* === 全域修正：防止超出畫面 === */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+  font-family: "微軟正黑體", sans-serif;
+  background-color: #4a0d0d;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* === 導覽欄與 logo === */
+.navbar {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgb(2, 57, 2);
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar .logo {
+  width: 100px;
+  height: auto;
+}
+
+.navbar .username {
+  font-size: 18px;
+  color: white;
+  line-height: 1;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* === 頁面標題 === */
+.page-title {
+  font-size: 60px;
+  margin-top: 40px;
+  color: #f8d886;
+}
+
+/* === 卡片容器 === */
+.menu-card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 60px;
+  justify-content: center;
+  margin-top: 60px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  padding-bottom: 60px;
+}
+
+/* === 卡片按鈕樣式 === */
+.big-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 120px;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 10px;
+  background-color: #173f1c;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.big-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.big-card.query,
+.big-card.repair {
+  border: 3px solid #c59771;
+}
+
+/* === 登入頁 === */
+.logo {
+  width: 450px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  gap: 20px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 8px;
+  text-align: left;
+  color: #fff;
+}
+
+.form-group input {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* === 按鈕 === */
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #c59771;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #a77a56;
+}
+
+/* === 報修頁 === */
+.repair-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.repair-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 380px;
+  gap: 24px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+}
+
+/* === 會員資料頁 === */
+.query-content {
+  padding: 40px 20px;
+}
+
+.info-box {
+  background-color: #ac8a6e;
+  border: 2px solid #a77a56;
+  border-radius: 10px;
+  padding: 25px 40px;
+  margin: 20px auto;
+  width: 360px;
+  text-align: left;
+  font-size: 20px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.note {
+  color: #ddd;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.back-button {
+  color: #f8d886;
+  font-size: 18px;
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* 手機漢堡選單預設隱藏 */
+.mobile-menu {
+  display: none;
+  position: relative;
+  margin-left: auto; /* 🔥 讓按鈕靠右 */
+}
+
+/* 按鈕靠右邊上方 */
+#menu-toggle {
+  background-color: #024000;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* 🔥 選單從右上角展開，靠右對齊 */
+.mobile-dropdown {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #024000;
+  box-shadow: -2px 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  border-radius: 4px;
+  min-width: 140px; /* ✅ 固定一個夠用的寬度 */
+  padding: 4px 0;
+}
+
+.mobile-dropdown a {
+  color: white;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  white-space: nowrap; /* 保持橫向 */
+}
+
+.mobile-dropdown a:hover {
+  background-color: #036003;
+}
+
+/* === ✅ 手機樣式調整 === */
+@media (max-width: 768px) {
   .navbar {
-    background-color: rgb(2, 57, 2);
-    color: white;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* 左右分開 */
+    width: 100vw;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
   }
-  
+
   .nav-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: row;
+    gap: 10px;
   }
 
   .nav-right {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 20px; /* 元素間距 */
+    display: none;
   }
 
-  .navbar .logo {
-    width: 100px;
-    margin-right: 20px;
+  .mobile-menu {
+    display: block;
   }
-  
-  .nav-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
+
+  .logo {
+    width: 140px;
   }
-  
-  .nav-link:hover {
-    text-decoration: underline;
-  }  
 
   .navbar .username {
-    font-size: 18px;
+    font-size: 16px;
   }
-  
-  /* 頁面標題 */
+
   .page-title {
-    font-size: 60px;
-    margin-top: 40px;
-    color: #f8d886;
+    font-size: 40px;
+    margin-top: 20px;
   }
-  
-  /* 按鈕卡片排版 */
+
   .menu-card-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 欄 */
-    gap: 40px 60px; /* 行距和欄距 */
-    justify-content: center;
-    margin-top: 60px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .card-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; /* 讓內容上下排 */
-    margin-top: 20px;       /* 距離標題不要太遠 */
-    padding-bottom: 60px;   /* 保留底部空間 */
-  }  
-
-  /* 查詢／報修 卡片按鈕樣式 */
-  .big-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 180px;
-    height: 120px;
-    font-size: 22px;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 10px;
-    background-color: #173f1c; /* 深綠底 */
-    color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .big-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-  }
-  
-  .big-card.query {
-    border: 3px solid #c59771;
-  }
-  
-  .big-card.repair {
-    border: 3px solid #c59771; 
-  }
-  
-  /*login setting*/
-  .logo {
-    width: 450px; /* 可調整為 200、220 看你想要的大小 */
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-  }
-  
-  .form-group {
     width: 100%;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 8px;
-    text-align: left;
-    color: #fff;
-  }
-  
-  .form-group input {
-    width: 100%;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    box-sizing: border-box;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    background-color: #c59771;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: #a77a56;
-  }
-  
-
-  /*repair setting*/
-  .repair-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-  
-  .repair-form form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 380px; /* 控制整體寬度，縮小 */
-    gap: 24px; /* 每個欄位間距 */
-  }
-  
-  .form-group {
-    width: 100%;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 8px;
-    text-align: left;
-  }
-  
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 4px;
-    border: none;
-    box-sizing: border-box;
-  }
-  
-  .submit-button {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    background-color: #c59771;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: #a77a56;
+    padding: 0 12px;
   }
 
-  /*query setting*/
+  .big-card {
+    width: 100%;
+    max-width: 240px;
+    height: 100px;
+    font-size: 16px;
+  }
+
   .info-box {
-    background-color: #ac8a6e;
-    border: 2px solid #a77a56;
-    border-radius: 10px;
-    padding: 25px 40px;
-    margin: 20px auto;
-    width: 360px;
-    text-align: left;
-    font-size: 20px;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* 每項之間的垂直距離 */
+    width: 100%;
+    padding: 20px;
+    font-size: 18px;
   }
-  
+}
