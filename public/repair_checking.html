@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>飛騰家電 - 查詢</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div class="navbar">
@@ -20,18 +21,25 @@
             <a href="info.html" class="nav-link">會員資料</a>
             <a href="#" class="nav-link" onclick="logout()">登出</a>
         </div>
+        //手機版本
+        <div class="mobile-menu">
+            <button id="menu-toggle">☰</button>
+            <div id="mobile-dropdown" class="mobile-dropdown">
+                <a href="home.html">首頁</a>
+                <a href="repair_checking.html">報修</a>
+                <a href="repair_pending.html">報修查詢</a>
+                <a href="repair_done.html">報修紀錄</a>
+                <a href="history.html">購買歷史</a>
+                <a href="info.html">會員資料</a>
+                <a href="index.html">登出</a>
+            </div>
+        </div>
     </div>
 
     <div class="page-title">報修查詢</div>
 
-    <div class="query-content">
-        <div class="info-box">
-          <p>維修單號：</p>
-          <p>產品名稱：</p>
-          <p>送修日期：</p>
-          <p>故障原因：</p>
-          <p>目前狀態：</p>
-        </div>
+    <div class="query-content" id="repair-container">
+        
     </div>
     <script>
         window.onload = async function () {
@@ -59,20 +67,18 @@
         
                 // 5. 處理資料
                 if (response.ok && Array.isArray(result) && result.length > 0) {
-                    infoBox.innerHTML = '';
-        
                     result.forEach(repair => {
-                        const repairItem = `
-                            <div class="repairItem">
-                                <p>維修單號：${repair.Repair_No || ''}</p>
-                                <p>產品名稱：${repair.Product_Name || ''}</p>
-                                <p>送修日期：${repair.Repair_Date || ''}</p>
-                                <p>故障原因：${repair.Failure_Cause || ''}</p>
-                                <p>目前狀態：${repair.Status || ''}</p>
-                                <hr>
-                            </div>
+                        const repairBox = document.createElement('div');
+                        repairBox.className = 'info-box';
+                        repairBox.innerHTML = `
+                            <p>維修單號：${repair.Repair_No || ''}</p>
+                            <p>產品名稱：${repair.Product_Name || ''}</p>
+                            <p>送修日期：${repair.Repair_Date || ''}</p>
+                            <p>故障原因：${repair.Failure_Cause || ''}</p>
+                            <p>目前狀態：${repair.Status || ''}</p>
+                            <hr>
                         `;
-                        infoBox.innerHTML += repairItem;
+                        container.appendChild(repairBox);
                     });
                 } else {
                     document.querySelector('.info-box').innerHTML = '<p>查無報修資料</p>';
