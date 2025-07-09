@@ -21,7 +21,7 @@
             <a href="info.html" class="nav-link">會員資料</a>
             <a href="#" class="nav-link" onclick="logout()">登出</a>
         </div>
-        //手機版本
+        <!-- 手機版本 -->
         <div class="mobile-menu">
             <button id="menu-toggle">☰</button>
             <div id="mobile-dropdown" class="mobile-dropdown">
@@ -50,9 +50,8 @@
                 return;
             }
         
-            // 2. 預設 infoBox 顯示「載入中」
-            const infoBox = document.querySelector('.info-box');
-            infoBox.innerHTML = '<p>載入中，請稍候...</p>';
+            const container = document.querySelector('#repair-container');
+            container.innerHTML = '<p>載入中，請稍候...</p>';
         
             try {
                 // 4. 呼叫 API
@@ -67,6 +66,7 @@
         
                 // 5. 處理資料
                 if (response.ok && Array.isArray(result) && result.length > 0) {
+                    container.innerHTML = '';
                     result.forEach(repair => {
                         const repairBox = document.createElement('div');
                         repairBox.className = 'info-box';
@@ -81,11 +81,11 @@
                         container.appendChild(repairBox);
                     });
                 } else {
-                    document.querySelector('.info-box').innerHTML = '<p>查無報修資料</p>';
+                    document.querySelector('#repair-container').innerHTML = '<p>查無報修資料</p>';
                 }
             } catch (error) {
                 console.error('查詢失敗:', error);
-                document.querySelector('.info-box').innerHTML = '<p>發生錯誤，請稍後再試</p>';
+                document.querySelector('#repair-container').innerHTML = '<p>發生錯誤，請稍後再試</p>';
             }
         }
     </script>
