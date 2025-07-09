@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>飛騰家電 - 會員登入</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
   <div class="container">
@@ -70,6 +71,14 @@
         window.location.href = "home.html";
         return false; // 阻止表單重新整理
     }
+  </script>
+  <script>
+    const toggleButton = document.getElementById('menu-toggle');
+    const dropdown = document.getElementById('mobile-dropdown');
+
+    toggleButton.addEventListener('click', () => {
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    });
   </script>
 </body>
 </html>
