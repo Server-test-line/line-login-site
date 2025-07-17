@@ -144,7 +144,8 @@
                     option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
 
                     option.dataset.orderNo = product.Order_No;
-                    option.dataset.productSn = product.Product_SN;  // 注意後端回傳欄位
+                    option.dataset.productName = product.Product_Name;
+                    option.dataset.productSn = product.Product_No;  
                     selectElement.appendChild(option);
                     });
                 }
@@ -208,9 +209,15 @@
         
         const select = document.getElementById('product-id');
         const selectedOption = select.options[select.selectedIndex];
+        
+        const repairMethodSelect = document.getElementById('repair-method');
+        const repairMethodText = repairMethodSelect.options[repairMethodSelect.selectedIndex].text;
+        
+        const deliveryMethodSelect = document.getElementById('delivery-method');
+        const deliveryMethodText = deliveryMethodSelect.options[deliveryMethodSelect.selectedIndex].text;
 
         let Order_No = selectedOption.dataset?.orderNo || '';
-        let Product_No = selectedOption.value || '';
+        let Product_No = selectedOption.dataset?.productName || '';
         let Product_SN = selectedOption.dataset?.productSn || '';
         
         if (select.value === 'custom') {
@@ -226,8 +233,8 @@
           Adress: document.getElementById('home-address').value,
           Contact_Details: document.getElementById('call-content').value,
           Fault_Description: document.getElementById('description').value,
-          Repair_Method: document.getElementById('repair-method').value,
-          Repair_Type: document.getElementById('delivery-method').value,
+          Repair_Method: repairMethodText,
+          Repair_Type: deliveryMethodText,
           Order_No,
           Product_No,
           Product_SN,
