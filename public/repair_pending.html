@@ -122,8 +122,7 @@
                 // 動態填充下拉選單
                 productData.forEach(product => {
                 const option = document.createElement('option');
-                option.value = product.Product_No;  // 產品序號作為選項值
-                option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
+                option.value = `${product.Product_Name}：${product.Product_No}`;   // 產品序號作為選項值
                 dataListElement.appendChild(option);  // 添加選項到下拉選單
                 });
             }
@@ -145,8 +144,7 @@
                     // 動態填充下拉選單
                     data.forEach(product => {
                     const option = document.createElement('option');
-                    option.value = product.Product_No;  // 產品序號作為選項值
-                    option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
+                    option.value = `${product.Product_Name}：${product.Product_No}`;  // 產品序號作為選項值
                     dataListElement.appendChild(option);  // 添加選項到下拉選單
                     });
                 } else {
