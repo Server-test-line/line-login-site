@@ -10,7 +10,7 @@ export default async function handler(req, res) {
             return res.status(400).json({ message: '無會員電話號碼' });
         }
 
-        const repairResponse = await fetch('https://webapi.vastar.com.tw/api/RepairOrder/Query', {
+        const repairResponse = await fetch('https://webapi.vastar.com.tw/api/RepairOrder/QueryERP', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
