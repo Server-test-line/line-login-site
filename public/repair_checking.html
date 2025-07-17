@@ -67,7 +67,7 @@
               // 5. 處理資料
               if (response.ok && Array.isArray(result) && result.length > 0) {
                   container.innerHTML = '';
-                  result.forEach(repair => {
+                  result.forEach(repairhistory => {
                       const repairBox = document.createElement('div');
                       repairBox.className = 'info-box';
                       repairBox.innerHTML = `
