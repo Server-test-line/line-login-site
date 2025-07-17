@@ -56,10 +56,10 @@
             
             <div class="form-group">
                 <label for="product-id">商品名稱：序號</label>
-                <input type="text" id="product-id" name="product-id" list="product-list" placeholder="請選擇或輸入商品名稱與序號" />
-                <datalist id="product-list">
-
-                </datalist>
+                <select id="product-id" name="product-id"onchange="toggleCustomProductInput()" required>
+                    
+                </select>
+                <input type="text" id="custom-product" name="custom-product" placeholder="請輸入商品名稱與序號" class="hidden" />
             </div>
             
             <div class="form-group">
@@ -114,58 +114,54 @@
             }
             let productData = localStorage.getItem('productData');
             if (productData) {
-                productData = JSON.parse(productData);
-            } else {
+                productData = JSON.parse(productData);  // 解析資料
+            }
+            else{
+                // 發送請求到後端 API 查詢訂單資料
                 const response = await fetch('/api/proxy-create_repair', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ Account_Name: phone })
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Account_Name: phone })
                 });
                 if (response.ok) {
-                    productData = await response.json();
+                    const data = await response.json();
                 } else {
                     console.error('查詢失敗');
-                    productData = [];
                 }
             }
-
-            const dataListElement = document.getElementById('product-list');
-            dataListElement.innerHTML = '';
-            productData.forEach((product) => {
+            const selectElement = document.querySelector('#product-id');
+            selectElement.innerHTML = '';  // 清空現有選項
+            
+            productData.forEach(product => {
                 const option = document.createElement('option');
-                option.value = `${product.Product_Name}：${product.Product_No}`;
-                dataListElement.appendChild(option);
+                option.value = product.Product_No;
+                option.textContent = `${product.Product_Name}：${product.Product_No}`;
+                selectElement.appendChild(option);
             });
-            const productInput = document.getElementById('product-id');
-            productInput.addEventListener('focus', () => {
-                if (productInput.value.trim() !== '') {
-                    const val = productInput.value;
-                    productInput.value = '';
-                    setTimeout(() => {
-                        productInput.value = val;
-                    }, 0);
-                }
-            });
+            const customOption = document.createElement('option');
+            customOption.value = 'custom';
+            customOption.textContent = '自行輸入';
+            selectElement.appendChild(customOption);
         };
-          function toggleRepairMethod() {
+        function toggleRepairMethod() {
             const method = document.getElementById("repair-method").value;
             const callContent = document.getElementById("callContentGroup");
             callContent.classList.toggle("hidden", method !== "phone");
-          }
-          function toggleDeliveryMethod() {
+        }
+        function toggleDeliveryMethod() {
             const method = document.getElementById("delivery-method").value;
             document.getElementById("homeAddressGroup").classList.toggle("hidden", method !== "home");
             document.getElementById("companyAddressGroup").classList.toggle("hidden", method !== "self");
-          }
-          function confirmSubmit() {
+        }
+        function confirmSubmit() {
             alert("報修資料已送出！（模擬功能）");
             return false;
-          }
-          const toggleButton = document.getElementById('menu-toggle');
-          const dropdown = document.getElementById('mobile-dropdown');
-          toggleButton.addEventListener('click', () => {
+        }
+        const toggleButton = document.getElementById('menu-toggle');
+        const dropdown = document.getElementById('mobile-dropdown');
+        toggleButton.addEventListener('click', () => {
             dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-          });
+        });
     </script>
     <script src="welcome-username.js"></script>
     <script src="logout.js"></script>
