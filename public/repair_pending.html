@@ -217,7 +217,8 @@
         const deliveryMethodText = deliveryMethodSelect.options[deliveryMethodSelect.selectedIndex].text;
 
         let Order_No = selectedOption.dataset?.orderNo || '';
-        let Product_No = selectedOption.dataset?.productName || '';
+        let Product_Name = selectedOption.dataset?.productName || '';
+        let Product_No = selectedOption.dataset?.productSn || '';
         let Product_SN = selectedOption.dataset?.productSn || '';
         
         if (select.value === 'custom') {
@@ -237,6 +238,7 @@
           Repair_Type: deliveryMethodText,
           Order_No,
           Product_No,
+          Product_Name,
           Product_SN,
         };
         
