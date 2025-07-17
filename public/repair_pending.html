@@ -56,9 +56,10 @@
             
             <div class="form-group">
                 <label for="product-id">商品名稱：序號</label>
-                <select id="product-id" name="product-id">
-                    
-                </select>
+                <input type="text" id="product-id" name="product-id" list="product-list" placeholder="請選擇或輸入商品名稱與序號" />
+                <datalist id="product-list">
+
+                </datalist>
             </div>
             
             <div class="form-group">
@@ -123,7 +124,7 @@
                 const option = document.createElement('option');
                 option.value = product.Product_No;  // 產品序號作為選項值
                 option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
-                selectElement.appendChild(option);  // 添加選項到下拉選單
+                dataListElement.appendChild(option);  // 添加選項到下拉選單
                 });
             }
             else{
@@ -146,29 +147,32 @@
                     const option = document.createElement('option');
                     option.value = product.Product_No;  // 產品序號作為選項值
                     option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
-                    selectElement.appendChild(option);  // 添加選項到下拉選單
+                    dataListElement.appendChild(option);  // 添加選項到下拉選單
                     });
                 } else {
                     console.error('查詢失敗');
                 }
             }
         };
-        function updateDeliveryOptions() {
-            const method = document.getElementById("method").value;
-            document.getElementById("homeAddressGroup").classList.add("hidden");
-            document.getElementById("companyAddressGroup").classList.add("hidden");
-    
-            if (method === "home") {
-                document.getElementById("homeAddressGroup").classList.remove("hidden");
-            } else if (method === "self") {
-                document.getElementById("companyAddressGroup").classList.remove("hidden");
-            }
-        }
-        
-        function confirmSubmit() {
+          function toggleRepairMethod() {
+            const method = document.getElementById("repair-method").value;
+            const callContent = document.getElementById("callContentGroup");
+            callContent.classList.toggle("hidden", method !== "phone");
+          }
+          function toggleDeliveryMethod() {
+            const method = document.getElementById("delivery-method").value;
+            document.getElementById("homeAddressGroup").classList.toggle("hidden", method !== "home");
+            document.getElementById("companyAddressGroup").classList.toggle("hidden", method !== "self");
+          }
+          function confirmSubmit() {
             alert("報修資料已送出！（模擬功能）");
-            return false; // 阻止實際送出
-        }
+            return false;
+          }
+          const toggleButton = document.getElementById('menu-toggle');
+          const dropdown = document.getElementById('mobile-dropdown');
+          toggleButton.addEventListener('click', () => {
+            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+          });
     </script>
     <script>
         const toggleButton = document.getElementById('menu-toggle');
