@@ -76,8 +76,8 @@
             </div>
             
             <div class="form-group">
-                <label for="method">送修方式：</label>
-                <select id="method" name="delivery-method" onchange="toggleDeliveryMethod()" required>
+                <label for="delivery-method">送修方式：</label>
+                <select id="delivery-method" name="delivery-method" onchange="toggleDeliveryMethod()" required>
                     <option value="">請選擇維修方式</option>
                     <option value="home">到府收件</option>
                     <option value="self">自行送修</option>
@@ -114,43 +114,38 @@
             }
             let productData = localStorage.getItem('productData');
             if (productData) {
-                productData = JSON.parse(productData);  // 解析資料
-                // 清空下拉選單
-                const dataListElement = document.querySelector('#product-list');
-                dataListElement.innerHTML = '';  // 清除現有的選項
-
-                // 動態填充下拉選單
-                productData.forEach(product => {
-                const option = document.createElement('option');
-                option.value = `${product.Product_Name}：${product.Product_No}`;   // 產品序號作為選項值
-                dataListElement.appendChild(option);  // 添加選項到下拉選單
-                });
-            }
-            else{
-                // 發送請求到後端 API 查詢訂單資料
+                productData = JSON.parse(productData);
+            } else {
                 const response = await fetch('/api/proxy-create_repair', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Account_Name: phone })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Account_Name: phone })
                 });
-
                 if (response.ok) {
-                    const data = await response.json();
-                
-                    // 清空下拉選單
-                    const dataListElement = document.querySelector('#product-list');
-                    dataListElement.innerHTML = '';  // 清除現有的選項
-
-                    // 動態填充下拉選單
-                    data.forEach(product => {
-                    const option = document.createElement('option');
-                    option.value = `${product.Product_Name}：${product.Product_No}`;  // 產品序號作為選項值
-                    dataListElement.appendChild(option);  // 添加選項到下拉選單
-                    });
+                    productData = await response.json();
                 } else {
                     console.error('查詢失敗');
+                    productData = [];
                 }
             }
+
+            const dataListElement = document.getElementById('product-list');
+            dataListElement.innerHTML = '';
+            productData.forEach((product) => {
+                const option = document.createElement('option');
+                option.value = `${product.Product_Name}：${product.Product_No}`;
+                dataListElement.appendChild(option);
+            });
+            const productInput = document.getElementById('product-id');
+            productInput.addEventListener('focus', () => {
+                if (productInput.value.trim() !== '') {
+                    const val = productInput.value;
+                    productInput.value = '';
+                    setTimeout(() => {
+                        productInput.value = val;
+                    }, 0);
+                }
+            });
         };
           function toggleRepairMethod() {
             const method = document.getElementById("repair-method").value;
