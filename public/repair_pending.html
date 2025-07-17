@@ -106,6 +106,7 @@
 
     <script>
         window.onload = async function () {
+            const selectElement = document.querySelector('#product-id');
             const phone = localStorage.getItem('userName');
             if(!phone){
                 alert('請先登入');
