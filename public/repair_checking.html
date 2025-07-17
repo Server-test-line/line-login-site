@@ -37,20 +37,64 @@
   </div>
 
   <div class="page-title">報修進度查詢</div>
-
-  <div class="query-content">
-    <p>以下是您過去的報修記錄：</p>
-
-    <div class="info-box">
-      <p>維修單號：</p>
-      <p>產品名稱：</p>
-      <p>送修日期：</p>
-      <p>維修結果：</p>
-    </div>
-
-    <p class="note">（資料由後端 API 提供）</p>
-    <a href="home.html" class="back-button">← 回首頁</a>
+      <div class="query-content" id="repairhistory-container">
+        
+      <a href="home.html" class="back-button">← 回首頁</a>
   </div>
+  <script>
+      window.onload = async function () {
+          const phone = localStorage.getItem('userName');
+          if (!phone) {
+              alert('請先登入');
+              window.location.href = 'index.html';
+              return;
+          }
+      
+          const container = document.querySelector('#repairhistory-container');
+          container.innerHTML = '<p>載入中，請稍候...</p>';
+      
+          try {
+              // 4. 呼叫 API
+              const response = await fetch('/api/proxy-repairhistory', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ Account_Name: phone })
+              });
+      
+              const result = await response.json();
+              console.log('API 回傳資料：', result);
+      
+              // 5. 處理資料
+              if (response.ok && Array.isArray(result) && result.length > 0) {
+                  container.innerHTML = '';
+                  result.forEach(repair => {
+                      const repairBox = document.createElement('div');
+                      repairBox.className = 'info-box';
+                      repairBox.innerHTML = `
+                          <p>維修單號：${repairhistory.Repair_No || ''}</p>
+                          <p>客戶姓名：${repairhistory.Name || ''}</p>
+                          <p>客戶電話：${repairhistory.Telphone || ''}</p>
+                          <p>報修產品名稱：${repairhistory.Product_Name || ''}</p>
+                          <p>報修產品序號：${repairhistory.Product_SN || ''}</p>
+                          <p>報修方式：${repairhistory.Repair_Method || ''}</p>
+                          <p>送修方式：${repairhistory.Repair_Type || ''}</p>
+                          <p>收件地址：${repairhistory.Adress || ''}</p>
+                          <p>送修日期：${repairhistory.Repair_Date || ''}</p>
+                          <p>故障描述：${repairhistory.Fault_Description || ''}</p>
+                          <p>電話連絡內容：${repairhistory.Message || ''}</p>
+                          <hr>
+                      `;
+                      container.appendChild(repairBox);
+                  });
+              } else {
+                  document.querySelector('#repairhistory-container').innerHTML = '<p>查無報修資料</p>';
+              }
+          } catch (error) {
+              console.error('查詢失敗:', error);
+              document.querySelector('#repairhistory-container').innerHTML = '<p>發生錯誤，請稍後再試</p>';
+          }
+      }
+  </script>
   <script src="logout.js"></script>
   <script>
     const toggleButton = document.getElementById('menu-toggle');
