@@ -127,17 +127,20 @@
                     const data = await response.json();
                 } else {
                     console.error('查詢失敗');
+                    productData = [];
                 }
             }
             const selectElement = document.querySelector('#product-id');
             selectElement.innerHTML = '';  // 清空現有選項
             
-            productData.forEach(product => {
-                const option = document.createElement('option');
-                option.value = product.Product_No;
-                option.textContent = `${product.Product_Name}：${product.Product_No}`;
-                selectElement.appendChild(option);
-            });
+            if (Array.isArray(productData)) {
+                productData.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.Product_No;
+                    option.textContent = `${product.Product_Name}：${product.Product_No}`;
+                    selectElement.appendChild(option);
+                });
+            }
             const customOption = document.createElement('option');
             customOption.value = 'custom';
             customOption.textContent = '自行輸入';
