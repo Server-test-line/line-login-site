@@ -122,9 +122,9 @@
             
               if (memberRes.ok) {
                 const memberData = await memberRes.json();
-                document.getElementById('Name').value = memberData?.Account_Name || '';
-                document.getElementById('MobilePhone').value = memberData?.Mobile || '';
-                document.getElementById('Address').value = memberData?.Address || '';
+                document.getElementById('username').value = memberData?.Account_Name || '';
+                document.getElementById('phone').value = memberData?.Mobile || '';
+                document.getElementById('home-address').value = memberData?.Address || '';
               } else {
                 console.error('會員資料載入失敗');
               }
