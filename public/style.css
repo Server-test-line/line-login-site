@@ -132,9 +132,7 @@ html, body {
     width: 100%;
   }
   
-  .form-group label, 
-  .form-group select, 
-  .form-group input[type="text"] {
+  .form-group label, {
     display: block;
     font-size: 20px;
     margin-bottom: 8px;
@@ -362,4 +360,14 @@ html, body {
     padding: 20px;
     font-size: 18px;
   }
+}
+  .form-group input[type="text"] {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #fff;
+  }
+.hidden {
+  display: none;
 }
