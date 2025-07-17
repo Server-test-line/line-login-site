@@ -117,7 +117,6 @@
                 if (productData) {
                     productData = JSON.parse(productData);  // 解析資料
                     // 清空下拉選單
-                    const selectElement = document.querySelector('#product-id');
                     selectElement.innerHTML = '';  // 清除現有的選項
             
                     // 動態填充下拉選單
@@ -159,6 +158,15 @@
             customOption.textContent = '自行輸入';
             selectElement.appendChild(customOption);
         };
+        function toggleCustomProductInput() {
+            const select = document.getElementById('product-id');
+            const customInput = document.getElementById('custom-product');
+            if (select.value === 'custom') {
+            customInput.classList.remove('hidden');
+            } else {
+            customInput.classList.add('hidden');
+            }
+        }
         function toggleRepairMethod() {
             const method = document.getElementById("repair-method").value;
             const callContent = document.getElementById("callContentGroup");
