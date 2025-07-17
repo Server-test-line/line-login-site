@@ -43,7 +43,7 @@
     <div class="page-title">產品報修</div>
     
     <div class="repair-form">
-        <form onsubmit="return confirmSubmit()">
+        <form id="repair-form" onsubmit="return confirmSubmit()">
             <div class="form-group">
                 <label for="username">客戶姓名：</label>
                 <input type="text" id="username" name="username" value="" readonly>
@@ -142,7 +142,10 @@
                     const option = document.createElement('option');
                     option.value = product.Product_No;  // 產品序號作為選項值
                     option.textContent = `${product.Product_Name}：${product.Product_No}`;  // 顯示產品名稱和產品序號
-                    selectElement.appendChild(option);  // 添加選項到下拉選單
+
+                    option.dataset.orderNo = product.Order_No;
+                    option.dataset.productSn = product.Product_SN;  // 注意後端回傳欄位
+                    selectElement.appendChild(option);
                     });
                 }
                 else{
@@ -195,14 +198,60 @@
             document.getElementById("homeAddressGroup").classList.toggle("hidden", method !== "home");
             document.getElementById("companyAddressGroup").classList.toggle("hidden", method !== "self");
         }
-        function confirmSubmit() {
-            alert("報修資料已送出！（模擬功能）");
-            return false;
-        }
         const toggleButton = document.getElementById('menu-toggle');
         const dropdown = document.getElementById('mobile-dropdown');
         toggleButton.addEventListener('click', () => {
             dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+        });
+        document.getElementById('repair-form').addEventListener('submit', async function (e) {
+        e.preventDefault(); // 防止表單跳頁
+        
+        const select = document.getElementById('product-id');
+        const selectedOption = select.options[select.selectedIndex];
+
+        let Order_No = selectedOption.dataset?.orderNo || '';
+        let Product_No = selectedOption.value || '';
+        let Product_SN = selectedOption.dataset?.productSn || '';
+        
+        if (select.value === 'custom') {
+            const customValue = document.getElementById('custom-product').value;
+            Product_No = customValue;
+            Product_SN = customValue;
+            Order_No = ''; 
+        }
+        const data = {
+          Account_Name: document.getElementById('phone').value,
+          Name: document.getElementById('username').value,
+          Telphone: document.getElementById('phone').value,
+          Adress: document.getElementById('home-address').value,
+          Contact_Details: document.getElementById('call-content').value,
+          Fault_Description: document.getElementById('description').value,
+          Repair_Method: document.getElementById('repair-method').value,
+          Repair_Type: document.getElementById('delivery-method').value,
+          Order_No,
+          Product_No,
+          Product_SN,
+        };
+        
+        try {
+          const response = await fetch('/api/proxy-create_repair_insert', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        
+          const result = await response.json();
+        
+          if (response.ok) {
+            alert('報修成功！單號：' + result.Order_ID);
+          } else {
+            alert('報修失敗：' + (result.message || '請稍後再試'));
+            console.error('詳細錯誤：', result);
+          }
+        } catch (err) {
+          console.error('發生錯誤：', err);
+          alert('送出失敗，請檢查網路連線');
+        }
         });
     </script>
     <script src="welcome-username.js"></script>
