@@ -46,12 +46,12 @@
         <form onsubmit="return confirmSubmit()">
             <div class="form-group">
                 <label for="username">客戶姓名：</label>
-                <input type="text" id="username" name="username" value="王小明" readonly>
+                <input type="text" id="username" name="username" value="" readonly>
             </div>
             
             <div class="form-group">
                 <label for="phone">客戶電話：</label>
-                <input type="text" id="phone" name="phone" value="0912345678" readonly>
+                <input type="text" id="phone" name="phone" value="" readonly>
             </div>
             
             <div class="form-group">
@@ -112,6 +112,24 @@
                 alert('請先登入');
                 window.location.href = 'index.html';
                 return;
+            }
+            try {
+              const memberRes = await fetch('/api/proxy-query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Account_Name: phone })
+              });
+            
+              if (memberRes.ok) {
+                const memberData = await memberRes.json();
+                document.getElementById('Name').value = memberData?.Account_Name || '';
+                document.getElementById('MobilePhone').value = memberData?.Mobile || '';
+                document.getElementById('Address').value = memberData?.Address || '';
+              } else {
+                console.error('會員資料載入失敗');
+              }
+            } catch (error) {
+              console.error('載入會員資料時發生錯誤', error);
             }
             let productData = localStorage.getItem('productData');
                 if (productData) {
