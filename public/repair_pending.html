@@ -252,7 +252,7 @@
           const result = await response.json();
         
           if (response.ok) {
-            alert('報修成功！單號：' + result.Order_ID);
+            alert('報修成功！單號：' + result.Repair_No);
           } else {
             alert('報修失敗：' + (result.message || '請稍後再試'));
             console.error('詳細錯誤：', result);
