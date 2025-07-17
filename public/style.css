@@ -361,13 +361,3 @@ html, body {
     font-size: 18px;
   }
 }
-  .form-group input[type="text"] {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 8px;
-    text-align: left;
-    color: #fff;
-  }
-.hidden {
-  display: none;
-}
