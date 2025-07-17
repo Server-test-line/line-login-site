@@ -41,35 +41,63 @@
     </div>
 
     <div class="page-title">產品報修</div>
-
+    
     <div class="repair-form">
         <form onsubmit="return confirmSubmit()">
-          <div class="form-group">
-            <label for="product-id">商品名稱：序號</label>
-            <select id="product-id" name="product-id">
+            <div class="form-group">
+                <label for="username">客戶姓名：</label>
+                <input type="text" id="username" name="username" value="王小明" readonly>
+            </div>
             
-            </select>
-          </div>
-      
-        <div class="form-group">
-            <label for="method">維修方式：</label>
-            <select id="method" name="method" onchange="updateDeliveryOptions()" required>
-                <option value="">請選擇維修方式</option>
-                <option value="home">到府收件</option>
-                <option value="self">自行宅配</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="phone">客戶電話：</label>
+                <input type="text" id="phone" name="phone" value="0912345678" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-id">商品名稱：序號</label>
+                <select id="product-id" name="product-id">
+                    
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="repair-method">報修方式：</label>
+                <select id="repair-method" name="repair-method" onchange="toggleRepairMethod()" required>
+                    <option value="">請選擇</option>
+                    <option value="phone">電話聯絡</option>
+                    <option value="self">自行報修</option>
+                </select>
+            </div>
+            <div class="form-group hidden" id="callContentGroup">
+                <label for="call-content">電話聯絡內容：</label>
+                <textarea id="call-content" name="call-content" rows="8" cols="80" placeholder="請輸入聯絡內容"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="method">送修方式：</label>
+                <select id="method" name="delivery-method" onchange="toggleDeliveryMethod()" required>
+                    <option value="">請選擇維修方式</option>
+                    <option value="home">到府收件</option>
+                    <option value="self">自行送修</option>
+                </select>
+            </div>
 
-        <div class="form-group hidden" id="homeAddressGroup">
-            <label for="home-address">收件地址：</label>
-            <input type="text" id="home-address" name="home-address" placeholder="請輸入您的收件地址">
-        </div>
-
-        <div class="form-group hidden" id="companyAddressGroup">
-            <p>請將產品寄至以下地址：</p>
-            <p>103台北市大同區承德路三段285號一樓</p>
-        </div>
-          <button type="submit" class="submit-button">確認報修</button>
+            <div class="form-group hidden" id="homeAddressGroup">
+                <label for="home-address">收件地址：</label>
+                <input type="text" id="home-address" name="home-address" placeholder="請輸入您的收件地址">
+            </div>
+            <div class="form-group hidden" id="companyAddressGroup">
+                <p>請將產品寄至以下地址：</p>
+                <p>103台北市大同區承德路三段285號一樓</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">故障描述：</label>
+                <textarea id="description" name="description" rows="8" cols="80" placeholder="請簡述產品目前的異常情況..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-button">確認報修</button>
         </form>
         <p class="note">如有問題請撥打電話：+886 2 2838 1010</p>
         <a href="home.html" class="back-button">← 回首頁</a>
