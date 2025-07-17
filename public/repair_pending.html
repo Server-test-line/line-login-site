@@ -116,7 +116,7 @@
             if (productData) {
                 productData = JSON.parse(productData);  // 解析資料
                 // 清空下拉選單
-                const selectElement = document.querySelector('#product-id');
+                const dataListElement = document.querySelector('#product-list');
                 selectElement.innerHTML = '';  // 清除現有的選項
 
                 // 動態填充下拉選單
@@ -139,7 +139,7 @@
                     const data = await response.json();
                 
                     // 清空下拉選單
-                    const selectElement = document.querySelector('#product-id');
+                    const dataListElement = document.querySelector('#product-list');
                     selectElement.innerHTML = '';  // 清除現有的選項
 
                     // 動態填充下拉選單
