@@ -236,7 +236,7 @@
           Name: document.getElementById('username').value,
           Telphone: document.getElementById('phone').value,
           Adress: document.getElementById('home-address').value,
-          Contact_Details: document.getElementById('call-content').value,
+          Contact_Details: repairMethodSelect.value === 'phone' ? document.getElementById('call-content').value : '',
           Fault_Description: document.getElementById('description').value,
           Repair_Method: repairMethodText,
           Repair_Type: deliveryMethodText,
