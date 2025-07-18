@@ -131,7 +131,7 @@
             } catch (error) {
               console.error('載入會員資料時發生錯誤', error);
             }
-            let productData = localStorage.getItem('productData');
+            localStorage.setItem('productData', JSON.stringify(data));
                 if (productData) {
                     productData = JSON.parse(productData);  // 解析資料
                     // 清空下拉選單
